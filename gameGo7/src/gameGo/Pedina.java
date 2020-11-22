@@ -26,13 +26,13 @@ public Pedina(int x, int y, int diameter, Color color) {
 	}
 
 public int getX() {
-	return x+17;
+	return x;
 }
 public void setX(int x) {
 	this.x = x;
 }
 public int getY() {
-	return y+17;
+	return y;
 }
 public void setY(int y) {
 	this.y = y;
