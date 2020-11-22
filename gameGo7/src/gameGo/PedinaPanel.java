@@ -93,7 +93,7 @@ public class PedinaPanel extends JPanel {
 
 	@Override
 	public void paint(Graphics g) {
-		ImageIcon i = new ImageIcon("C:/Users/ilari/eclipse-workspace/gameGo5/src/gameGo/base1.png");
+		ImageIcon i = new ImageIcon("../gameGo7/src/image/base1.png");
 		i.paintIcon(this, g, 80, 80);
 		for(Pedina p: pedine) {
 			p.draw(g);
