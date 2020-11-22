@@ -1,0 +1,42 @@
+%genera i fatti della pedina rossa (miei)!
+
+angolo(100).
+angolo(150).
+angolo(200).
+angolo(250).
+angolo(300).
+angolo(350).
+angolo(400).
+angolo(450).
+angolo(500).
+
+%colore 0 rosso --- 1 blu --- 2 nessun colore perche non è ancora posizionata nessuna pedina!
+
+%decido in quale casella mi devo spostare
+addB(X,Y)|noAddB(X,Y) :- angolo(X), angolo(Y).
+
+%non posso aggiungere pedine in una casella che non è libera
+:- addB(X,Y), occupato(X,Y,C1).
+
+%non posso aggiungere due pedine blu "nello stesso momento"
+:- #count{X,Y: addB(X,Y)} != 1.
+
+%cerco di non suicidarmi
+numeroPedinePresenti(C):- #count{X,Y : occupato(X,Y,_)}= C1, C=C1+1.
+contaVicini(X,Y,S):-addB(X,Y), #count{X1 : occupato(X1,Y,0)} = C1, #count{X2 : occupato(X2,Y,0)} = C2, #count{Y1 : occupato(X,Y1,0)} = C3, #count{Y2 : occupato(X,Y2,0)} = C4, X1=X+50, X2=X-50,  Y1=Y+50, Y2=Y-50, S=C1+C2+C3+C4.
+:- addB(X,Y), X>=100, Y<=500, contaVicini(X,Y,4), numeroPedinePresenti(C),C<81.
+:- addB(X,Y), X==100, contaVicini(X,Y,3),numeroPedinePresenti(C),C<81.
+:- addB(X,Y), Y==100, contaVicini(X,Y,3),numeroPedinePresenti(C),C<81.
+:- addB(X,Y), X==500, contaVicini(X,Y,3),numeroPedinePresenti(C),C<81.
+:- addB(X,Y), Y==500, contaVicini(X,Y,3),numeroPedinePresenti(C),C<81.
+
+%CONTROLLA: cerco di evitare di essere mangiato: se sono circondato su 3 lati e ne basta uno solo prima che mi mangia!
+:- addB(X,Y), X>=100, Y<=500, contaVicini(X,Y,3), numeroPedinePresenti(C),C<81.
+:- addB(X,Y), X==100, contaVicini(X,Y,2),numeroPedinePresenti(C),C<81.
+:- addB(X,Y), Y==100, contaVicini(X,Y,2),numeroPedinePresenti(C),C<81.
+:- addB(X,Y), X==500, contaVicini(X,Y,2),numeroPedinePresenti(C),C<81.
+:- addB(X,Y), Y==500, contaVicini(X,Y,2),numeroPedinePresenti(C),C<81.
+
+
+
+
