@@ -27,17 +27,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import java.awt.BorderLayout;
-public class interfP extends JFrame {
-
+public class InterfP extends JFrame {
 	private static JPanel contentPane;
-	private static interfP frame = new interfP();
+	private static InterfP frame = new InterfP();
 	static JFrame windows = new JFrame("Pedina");
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					interfP frame = new interfP();
+					InterfP frame = new InterfP();
 					frame.setResizable(false);
 					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					frame.setBounds(700, 700, 650, 600);
@@ -67,26 +66,9 @@ public class interfP extends JFrame {
 					}	
 					
 					//do una posizione ai bottoni
-					bottoni[0].setBounds(253, 482, 365, 25);
-					bottoni[1].setBounds(0, 520, 632, 33);
 					
-					
+					bottoni[0].setBounds(0, 520, 632, 33);
 					bottoni[0].addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent giusta) {
-								//grafica!
-								windows.setBounds(100, 100, 591, 631);
-								windows.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-								windows.getContentPane().setLayout(null);
-
-								PedinaPanel panel = new PedinaPanel();
-								windows.setContentPane(panel);
-								panel.addMouseListener(new PedinaClickListener(panel));
-								windows.setVisible(true);
-
-								frame.setVisible(false);					
-							}
-					});
-					bottoni[1].addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent giusta) {
 							//caricaFileTxtPrecedente();
 							
@@ -95,19 +77,23 @@ public class interfP extends JFrame {
 							windows.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 							windows.getContentPane().setLayout(null);
 
+							try {
+								creaFileTxt() ;
+							} catch (IOException e) {
+								System.out.println("Non sono riuscito a creare i file txt");
+							}
 							PedinaPanel panel = new PedinaPanel();
 							windows.setContentPane(panel);
 							panel.addMouseListener(new PedinaClickListener(panel));
 							windows.setVisible(true);
 
 							frame.setVisible(false);
-							frame.setVisible(false);
 							
 							frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 						}
 					});
 					JLabel lblNewLabel = new JLabel("");
-					lblNewLabel.setIcon(new ImageIcon(interfP.class.getResource("/image/sfondo.png")));
+					lblNewLabel.setIcon(new ImageIcon(InterfP.class.getResource("/image/sfondo.png")));
 					lblNewLabel.setOpaque(false);
 					contentPane.add(lblNewLabel, BorderLayout.CENTER);
 					
@@ -117,5 +103,28 @@ public class interfP extends JFrame {
 			}
 		});
 	}
-
+	private static void creaFileTxt() throws IOException{
+	for(int i=100; i<=500; i+=50) {
+    	for(int l=100; l<=500; l+=50) {
+    		String nome=("valori/"+i+" "+l);
+    		File f= new File (nome);
+    		if(f.exists()) {
+    			FileWriter fwOb = new FileWriter(nome, false); 
+    		    PrintWriter pwOb = new PrintWriter(fwOb, false);
+    		    pwOb.flush();
+    		    pwOb.close();
+    		    fwOb.close();
+        		FileOutputStream fos = new FileOutputStream(nome,true);
+    			PrintWriter scrivi = new PrintWriter(fos);
+        		scrivi.append(i + " " + l + " 2" );
+        		scrivi.close();
+    		}
+    		else if(f.createNewFile()) {
+    			PrintWriter scrivi = new PrintWriter(f);
+        		scrivi.println(i + " " + l + " 2 " );
+        		scrivi.close();
+    			}
+    		}
+    	}
+	}
 }
