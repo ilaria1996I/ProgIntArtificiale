@@ -20,7 +20,7 @@ public class PedinaClickListener extends MouseAdapter {
 	private leggiFile leggi = new leggiFile();
 	private scriviFile scrivi = new scriviFile();
 	private static String encodingResource="encodings/go";
-	
+	//dlv2-windows-64_6
 	public Handler handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6"));
 
 	
@@ -50,7 +50,7 @@ public class PedinaClickListener extends MouseAdapter {
 					panel.addPedina(new Pedina(nuovoXL, nuovoYL, 44, Color.black));
 					//System.out.println("provo a generare i fatti");
 					panel.generaIFatti(nuovoXL, nuovoYL);
-					System.out.println("lo inserisco " + nuovoXL + " " +nuovoYL);
+					//System.out.println("lo inserisco " + nuovoXL + " " +nuovoYL);
 					scrivi.openFile(nuovoXL, nuovoYL);
 					scrivi.aggiornaValore(nuovoXL, nuovoYL,0);
 					scrivi.chiudi();

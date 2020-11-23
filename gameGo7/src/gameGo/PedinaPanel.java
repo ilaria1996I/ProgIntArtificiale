@@ -36,11 +36,11 @@ public class PedinaPanel extends JPanel {
 	boolean trovato = false;
 	public void removeCircle(int x,int y){
 		for(Pedina p: pedine) {
-			System.out.println("Pedine presenti" + p.getX() + " " + p.getY());
+			//System.out.println("Pedine presenti" + p.getX() + " " + p.getY());
 			if(p.getX()==x && p.getY()==y ) {
 				trovato = true;
 				ricorda = p;
-				System.out.println("elimino pedina!!!" + p.getX()+" " + p.getY());
+			//	System.out.println("elimino pedina!!!" + p.getX()+" " + p.getY());
 				scrivi.openFile(ricorda.getX(),ricorda.getY());
 				scrivi.aggiornaValore(ricorda.getX(),ricorda.getY(),2);
 				scrivi.chiudi();
@@ -53,7 +53,7 @@ public class PedinaPanel extends JPanel {
 		
 	boolean nonPresenteGiaBianca(int x, int y) {
 		for(Pedina p: pedine) {
-			if(p.getX()==x && p.getY()==y && p.getColor()==Color.black)
+			if(p.getX()==x && p.getY()==y && p.getColor()==Color.white)
 				return false;
 		}
 		return true;
@@ -129,7 +129,7 @@ public class PedinaPanel extends JPanel {
 						if(c!=2) {
 							try {
 						facts.addObjectInput(new Occupato(i,j,c));
-						System.out.println(" " + i + " " + j + " " + c);
+						//System.out.println(" " + i + " " + j + " " + c);
 					} 
 					catch (Exception e) {
 						e.printStackTrace();
@@ -168,7 +168,7 @@ public class PedinaPanel extends JPanel {
 						scrivi.openFile(cell.getX(),cell.getY());
 						scrivi.aggiornaValore(cell.getX(),cell.getY(),1);
 						scrivi.chiudi();
-						System.out.print("il pc ha posizionato su: " + cell.getX() + " "+ cell.getY());
+						//System.out.print("il pc ha posizionato su: " + cell.getX() + " "+ cell.getY());
 						}
 					}
 				}
@@ -216,7 +216,7 @@ public class PedinaPanel extends JPanel {
 			ASPMapper.getInstance().registerClass(AddInP.class);
 			
 		} catch (Exception e) {
-			System.out.println("nessun add in p");
+			System.out.println("ERRORE la classe AddInP non è stata trovata!");
 		}
 		handler.startSync();
 		Output o =  handler.startSync();
@@ -228,7 +228,7 @@ public class PedinaPanel extends JPanel {
 					System.out.println();
 					if(obj instanceof AddInP)  {
 						AddInP addInP = (AddInP) obj;
-						System.out.println("add in p " + addInP.getX() + addInP.getY() + "!!!!!!!!!!!!");
+						//System.out.println("add in p " + addInP.getX() + addInP.getY() + "!!!!!!!!!!!!");
 						removeCircle(addInP.getX(),addInP.getY());
 						scrivi.openFile(addInP.getX(),addInP.getY());
 						scrivi.aggiornaValore(addInP.getX(),addInP.getY(),2);
