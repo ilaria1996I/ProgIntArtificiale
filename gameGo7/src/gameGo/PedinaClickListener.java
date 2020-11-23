@@ -59,19 +59,17 @@ public class PedinaClickListener extends MouseAdapter {
 					} catch (Exception e1) {
 						System.out.print("problema controllo chi non ha vie di fuga!");
 					}
+					try {
+						panel.controlloChiNonHaVieDiFuga2();
+					} catch (Exception e1) {
+						System.out.print("problema controllo chi non ha vie di fuga!2");
+					}
 				}
 				else
 					System.out.println("il valore non è stato inserito");
 			}
 		}
 
-	
-
-	
-
-	
-
-	
 	private int accettaMossaX(int x) {
 		while(x>=40) {
 			x = x-50;
