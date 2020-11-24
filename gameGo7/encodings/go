@@ -1,12 +1,12 @@
-angolo(100).
-angolo(150).
-angolo(200).
-angolo(250).
-angolo(300).
-angolo(350).
-angolo(400).
-angolo(450).
-angolo(500).
+valore(100).
+valore(150).
+valore(200).
+valore(250).
+valore(300).
+valore(350).
+valore(400).
+valore(450).
+valore(500).
 
 
 %occupato(150,300,1).
@@ -16,12 +16,20 @@ angolo(500).
 %occupato(200,300,0).
 
 
+
+%occupato(250,400,0).
+%occupato(300,450,0).
+%occupato(350,400,0).
+
+%occupato(300,400,1).
+
+
 %colore 0 rosso --- 1 blu --- 2 nessun colore perche non è ancora posizionata nessuna pedina!
 
 %decido in quale casella mi devo spostare
-addB(X,Y)|noAddB(X,Y) :- angolo(X), angolo(Y).
+addB(X,Y)|noAddB(X,Y) :- valore(X), valore(Y).
 
-
+%occupato(X,Y,1):- addB(X,Y).
 %non posso aggiungere pedine in una casella che non è libera
 :- addB(X,Y), occupato(X,Y,C1).
 
@@ -29,37 +37,67 @@ addB(X,Y)|noAddB(X,Y) :- angolo(X), angolo(Y).
 :- #count{X,Y : addB(X,Y)}<1.
 :- #count{X,Y : addB(X,Y)}>1.
 
-numeroPedinePresenti(C):- #count{X,Y : occupato(X,Y,_)}= C.
+nemiciVicini(X,Y,S):-  occupato(X,Y,1), #count{Y1 : occupato(X,Y1,0),Y1=Y-50} = S1, #count{X2 : occupato(X2,Y,0), X2=X+50} = S2,  #count{Y2 : occupato(X,Y2,0), Y2= Y+50} = S3,  #count{X1 : occupato(X1,Y,0),X1 = X-50} = S4, S=S1+S3+S3+S4.
+amiciVicini(X,Y,S):-  occupato(X,Y,0), #count{Y1 : occupato(X,Y1,1),Y1=Y-50} = S1, #count{X2 : occupato(X2,Y,1), X2=X+50} = S2,  #count{Y2 : occupato(X,Y2,1), Y2= Y+50} = S3,  #count{X1 : occupato(X1,Y,1),X1 = X-50} = S4, S=S1+S3+S3+S4.
 
-%non posso aggiungere due pedine blu "nello stesso momento"
-%:- addB(X1,Y1), addB(X2,Y2), X1!=X2.
-%:- addB(X1,Y1), addB(X2,Y2), Y1!=Y2.
-%:- addB(X1,Y1), addB(X2,Y2), X1!=X2, X1!=X2.
 
-%NON POSSO SUICIDARMI
+%NON POSSO SUICIDARMI, è una regola!
 :- addB(X,Y), occupato(X1,Y,0), occupato(X2,Y,0), occupato(X,Y1,0), occupato(X,Y2,0), X1=X-50, Y1=Y-50, X2=X+50, Y2=Y+50, numeroPedinePresenti(C), C<81.
 
 
-%se ce la pedina avversaria(nera) che è accerchiada da 3 bianchi cerco di mettere la 4 pedina cosi da ucciderla!
-numeroPedinePresenti(C):- #count{X,Y : occupato(X,Y,_)}= C.
-:- noAddB(X,Y1), occupato(X,Y,0), occupato(X1,Y,1), X1=X-50, occupato(X2,Y,1), X2=X+50,  occupato(X,Y2,1), Y2= Y+50, Y1 = Y-50, numeroPedinePresenti(C),C < 81.  
-:- noAddB(X,Y1), occupato(X,Y,0), occupato(X1,Y,1), X1=X-50, occupato(X2,Y,1), X2=X+50,  occupato(X,Y2,1), Y2= Y-50, Y1 = Y+50, numeroPedinePresenti(C),C < 81.  
-:- noAddB(X1,Y), occupato(X,Y,0), occupato(X,Y1,1), Y1=Y-50, occupato(X2,Y,1), X2=X-50,  occupato(X,Y2,1), Y2= Y+50, X1 = X+50, numeroPedinePresenti(C),C < 81. 
-:- noAddB(X1,Y), occupato(X,Y,0), occupato(X,Y1,1), Y1=Y-50, occupato(X2,Y,1), X2=X+50,  occupato(X,Y2,1), Y2= Y+50, X1 = X-50, numeroPedinePresenti(C),C < 81. 
+% fra non morire e uccidere preferisco NON morire!
 
-%se ce la pedina avversaria(nera) gli manca una mossa per uccidermi cerco di evitarlo!
-nemiciVicini(X,Y,S):- occupato(X,Y,1), #count{Y1 : occupato(X,Y1,0),Y1=Y-50} = C1, #count{X2 : occupato(X2,Y,0), X2=X+50} = C2,  #count{Y2 : occupato(X,Y2,0), Y2= Y+50} = C3,  #count{X1 : occupato(X,X1,0),X1 = X-50} = C4, S=C1+C3+C3+C4.
-%amiciVicini(X,Y):- occupato(X,Y,1), #count{Y1 : occupato(X,Y1,1),Y1=Y-50} = C1, #count{X2 : occupato(X2,Y,1), X2=X+50} = C2,  #count{Y2 : occupato(X,Y2,1), Y2= Y+50} = C3,  #count{X1 : occupato(X,X1,1),X1 = X-50} = C4, S=C1+C3+C3+C4.
-:~ not occupato(X1,Y,1), not add(X1,Y), nemiciVicini(X,Y,S), S>2, X1=X+50. [1@S]
-:~ not occupato(X1,Y,1),not add(X1,Y), nemiciVicini(X,Y,S), S>2, X1=X-50. [1@S]
-:~ not occupato(X,Y,1),not add(X,Y1), nemiciVicini(X,Y,S), S>2, Y1=Y+50. [1@S]
-:~ not occupato(X,Y1,1),not add(X,Y1), nemiciVicini(X,Y,S), S>2, Y1=Y-50. [1@S]
+%%CERCARE DI MANGIARE PEDINE:
+:~ not addB(X,Y1), amiciVicini(X,Y,S), Y1 = Y - 50. [S@2, X,Y]
+:~ not addB(X,Y1), amiciVicini(X,Y,S), Y1 = Y + 50. [S@2, X,Y]
+:~ not addB(X1,Y), amiciVicini(X,Y,S), X1 = X - 50. [S@2, X,Y]
+:~ not addB(X1,Y), amiciVicini(X,Y,S), X1 = X + 50. [S@2, X,Y]
 
+%se ce la pedina avversaria(nera) gli manca POCHE mosse per uccidermi cerco di evitarlo! pago in base alla gravita della situazione
+%EVITARE LA MIA MORTE(nel centro): 
+:~ not addB(X1,Y), nemiciVicini(X,Y,S), S>=2, X1=X+50. [S@3, X,Y]
+:~ not addB(X1,Y), nemiciVicini(X,Y,S), S>=2, X1=X-50. [S@3, X,Y]
+:~ not addB(X,Y1), nemiciVicini(X,Y,S), S>=2, Y1=Y+50. [S@3, X,Y]
+:~ not addB(X,Y1), nemiciVicini(X,Y,S), S>=2, Y1=Y-50. [S@3, X,Y]
+
+%se lascio cosi(senza mettere quello che scriverò sotto) ho una vulnerabilità maggiore nel bordo e negli angoli
+% EVITARE LA MIA MORTE(negli angoli): 
+:~ not addB(X1,Y), nemiciVicini(X,Y,S), X1=X+50, X=100, Y=100. [S@3, X,Y]
+:~ not addB(X1,Y), nemiciVicini(X,Y,S), X1=X-50, X=500, Y=500. [S@3, X,Y]
+:~ not addB(X,Y1), nemiciVicini(X,Y,S), Y1=Y+50, X=100, Y=500. [S@3, X,Y]
+:~ not addB(X,Y1), nemiciVicini(X,Y,S), Y1=Y-50, X=500, Y=100. [S@3, X,Y]
+
+% EVITARE LA MIA MORTE(nel bordo): 
+:~ not addB(X1,Y), nemiciVicini(X,Y,S), S>=1, X1=X+50, X=100, Y!=100. [S@3, X,Y]
+:~ not addB(X1,Y), nemiciVicini(X,Y,S), S>=1, X1=X-50, X=500, Y!=500. [S@3, X,Y]
+:~ not addB(X,Y1), nemiciVicini(X,Y,S), S>=1, Y1=Y+50, X!=100, Y=500. [S@3, X,Y]
+:~ not addB(X,Y1), nemiciVicini(X,Y,S), S>=1, Y1=Y-50, X!=500, Y=100. [S@3, X,Y]
+
+
+%lascia cosi scommenta nel caso vuoi usare il sotto insieme P, al momento non è utilizzato
 %quelli che vanno eliminati
-%addInP(X,Y,C):- C!=CO1, occupato(X,Y,C), occupato(X1,Y,CO1), occupato(X2,Y,CO1), occupato(X,Y1,CO1), occupato(X,Y2,CO1), X1=X-50, Y1=Y-50, X2=X+50, Y2=Y+50.
-%addInP(X,Y,CO1):- addB(X,Y), occupato(X1,Y,CO1), occupato(X2,Y,CO1), occupato(X,Y1,CO1), occupato(X,Y2,CO1), X1=X-50, Y1=Y-50, X2=X+50, Y2=Y+50.
+%se sei al centro
+%addInP(X,Y,C):- nemiciVicini(X,Y,S), S>3, occupato(X,Y,C).
+
+%se sei al bordo
+%addInP(X,Y,C):- nemiciVicini(X,Y,S), S>2, X==100, Y==100, occupato(X,Y,C).
+%addInP(X,Y,C):- nemiciVicini(X,Y,S), S>2, X==500, Y==100, occupato(X,Y,C).
+%addInP(X,Y,C):- nemiciVicini(X,Y,S), S>2, X==500,Y==500, occupato(X,Y,C).
+%addInP(X,Y,C):- nemiciVicini(X,Y,S), S>2, X==500,Y==500, occupato(X,Y,C).
 
 %:~ addInP(X,Y,1). [1@3]
+
+
+%addInP(X,Y,CO1):- addB(X,Y), occupato(X1,Y,CO1), occupato(X2,Y,CO1), occupato(X,Y1,CO1), occupato(X,Y2,CO1), X1=X-50, Y1=Y-50, X2=X+50, Y2=Y+50.
 %addInP(X,Y,C):- occupato(X,Y,C), occupato(X1,Y,CO1), X!=X1, C!=C1.
+
+
+
+
+
+
+
+
+
 
 

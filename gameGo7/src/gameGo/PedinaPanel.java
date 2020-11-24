@@ -243,7 +243,9 @@ public class PedinaPanel extends JPanel {
 				//System.out.println("nessun add in p");
 			} 	
 		}
-		
+		//resetta addb
+				handler.removeProgram(program);
+				handler.removeAll();	
 	}
 
 	@Override
