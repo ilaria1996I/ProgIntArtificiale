@@ -58,6 +58,7 @@ public int coloreAppartenenza (int a,int b) {
 		int i = y.nextInt();
 		int j = y.nextInt();
 		int c = y.nextInt();
+		if(a==i && b==j)
 			return c;
 	}
 	return 2;

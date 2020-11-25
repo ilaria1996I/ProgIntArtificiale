@@ -1,32 +1,23 @@
-valore(100).
+valore(0).
+valore(30).
+valore(60).
+valore(90).
+valore(120).
 valore(150).
-valore(200).
-valore(250).
+valore(180).
+valore(210).
+valore(240).
+valore(270).
 valore(300).
-valore(350).
-valore(400).
+valore(330).
+valore(360).
+valore(390).
+valore(420).
 valore(450).
-valore(500).
+valore(480).
+valore(510).
+valore(540).
 
-
-%occupato(150,300,1).
-%occupato(200,350,1).
-%occupato(250,300,1).
-
-%occupato(200,300,0).
-
-
-
-%occupato(250,400,0).
-%occupato(300,450,0).
-%occupato(350,400,0).
-
-%occupato(300,400,1).
-occupato(100,100,1).
-occupato(100,150,1).
-occupato(100,200,1).
-occupato(100,250,1).
-occupato(100,300,1).
 colore(0).
 colore(1).
 
@@ -44,9 +35,7 @@ addB(X,Y)|noAddB(X,Y) :- valore(X), valore(Y).
 :- #count{X,Y : addB(X,Y)}>1.
 
 contaOriz(X,Y,T,C):- colore(C), occupato(X,Y,C), #count{Y2 : occupato(X,Y2,C), Y2= Y+50} = S1,#count{Y2 : occupato(X,Y2,C), Y2= Y+100} = S2,#count{Y2 : occupato(X,Y2,C), Y2= Y+150} = S3,#count{Y2 : occupato(X,Y2,C), Y2= Y+200} = S4, S = S1+S2+S3+S4, S>1, T = S+1.
-
 contaVer(X,Y,T,C):- colore(C), occupato(X,Y,C),#count{X2 : occupato(X2,Y,C), X2= X+50} = S2,#count{X2 : occupato(X2,Y,C), X2= X+100} = S3,#count{X2 : occupato(X2,Y,C), X2= Y+150} = S4,#count{X2 : occupato(X2,Y,C), Y2= Y+200} = S1,  S = S1+S2+S3+S4, S>1, T = S+1.
-
 contaOb(X,Y,T,C):- colore(C), occupato(X,Y,C),#count{X2,Y2 : occupato(X2,Y2,C), X2= X+50,Y2= Y+50} = S1,#count{X2,Y2 : occupato(X2,Y2,C), X2= X+100,Y2= Y+100} = S2,#count{X2,Y2 : occupato(X2,Y2,C), X2= X+150,Y2= Y+150} = S3,#count{X2,Y2 : occupato(X2,Y2,C), X2= X+200,Y2= Y+200} = S4,  S = S1+S2+S3+S4, S>1, T = S+1.
 
 
@@ -62,3 +51,4 @@ contaOb(X,Y,T,C):- colore(C), occupato(X,Y,C),#count{X2,Y2 : occupato(X2,Y2,C), 
 :~ contaOb(X,Y,T,C), T=4, not addB(X1,Y1), X1 = X + 200, Y>100, Y1 = Y + 200, X>100. [T@3]
 :~ contaOb(X,Y,T,C), T=4, not addB(X1,Y1), X1 = X + 200, Y>100, Y1 = Y + 200, X=100. [T@3]
 
+%bisogna fare il win!

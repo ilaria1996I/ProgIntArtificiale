@@ -104,8 +104,8 @@ public class InterfP extends JFrame {
 		});
 	}
 	private static void creaFileTxt() throws IOException{
-	for(int i=100; i<=500; i+=50) {
-    	for(int l=100; l<=500; l+=50) {
+	for(int i=0; i<=540; i+=30) {
+    	for(int l=0; l<=540; l+=30) {
     		String nome=("valori/"+i+" "+l);
     		File f= new File (nome);
     		if(f.exists()) {
@@ -121,7 +121,7 @@ public class InterfP extends JFrame {
     		}
     		else if(f.createNewFile()) {
     			PrintWriter scrivi = new PrintWriter(f);
-        		scrivi.println(i + " " + l + " 2 " );
+        		scrivi.println(i + " " + l + " 2" );
         		scrivi.close();
     			}
     		}

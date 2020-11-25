@@ -20,7 +20,6 @@ public class PedinaClickListener extends MouseAdapter {
 	private leggiFile leggi = new leggiFile();
 	private scriviFile scrivi = new scriviFile();
 	private static String encodingResource="encodings/go";
-	//dlv2-windows-64_6
 	public Handler handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6"));
 
 	
@@ -34,20 +33,22 @@ public class PedinaClickListener extends MouseAdapter {
 			}
 
 	@Override
-	public void mouseClicked(MouseEvent e) { 
-		//System.out.println(e.getX() + " " +e.getY()) ;
-			int distanzaDaX = accettaMossaX(e.getX()-12);
-			int distanzaDaY = accettaMossaY(e.getY()-12);
-			if(distanzaDaX <=10 && distanzaDaY <=10){
-			//int nuovoX = - distanzaDaX + e.getX()-29;
-			//int nuovoY = - distanzaDaY + e.getY()-29;
-			int nuovoXL = - distanzaDaX + e.getX()-12;
-			int nuovoYL = - distanzaDaY + e.getY()-12;
+	public void mouseClicked(MouseEvent e) {
+		//la tabella varia da 0 a 540 ogni cella misura 30
+		
+		int x = e.getX() - 15;
+		int y = e.getY() - 15;
+		
+			int distanzaDaX = accettaMossaX(x);
+			int distanzaDaY = accettaMossaY(y);
+			//System.out.println("Ti sei spostata di " + distanzaDaX + " " +distanzaDaY);
+			if(distanzaDaX <=13 && distanzaDaY <=13){
+			int nuovoXL = - distanzaDaX + x;
+			int nuovoYL = - distanzaDaY + y;
 				
-				
-				System.out.println(nuovoXL + " "+nuovoYL);
-				if(leggi.readFileS(nuovoXL, nuovoYL) && panel.nonPresenteGiaBianca(nuovoXL, nuovoYL) && nuovoYL<=500 && nuovoXL>=100) {
-					panel.addPedina(new Pedina(nuovoXL, nuovoYL, 44, Color.black));
+
+				if(leggi.readFileS(nuovoXL, nuovoYL) && panel.nonPresenteGiaBianca(nuovoXL, nuovoYL) && nuovoYL<=540 && nuovoXL>=0 && nuovoXL<=540 && nuovoYL>=0) {
+					panel.addPedina(new Pedina(nuovoXL, nuovoYL, 25, Color.black));
 					//System.out.println("provo a generare i fatti");
 					panel.generaIFatti(nuovoXL, nuovoYL);
 					//System.out.println("lo inserisco " + nuovoXL + " " +nuovoYL);
@@ -59,25 +60,22 @@ public class PedinaClickListener extends MouseAdapter {
 					} catch (Exception e1) {
 						System.out.print("problema controllo chi non ha vie di fuga!");
 					}
-					try {
-						panel.controlloChiNonHaVieDiFuga2();
-					} catch (Exception e1) {
-						System.out.print("problema controllo chi non ha vie di fuga!2");
-					}
 				}
 				else
 					System.out.println("il valore non è stato inserito");
 			}
+			else
+				System.out.println("prova a essere un pò piu preciso! ");
 		}
 
 	private int accettaMossaX(int x) {
-		while(x>=40) {
-			x = x-50;
+		while(x>=20) {
+			x = x-30;
 		}
 		return x;}
 	
 	private int accettaMossaY(int y) {
-		while(y>=40) {
-			y = y-50;
+		while(y>=20) {
+			y = y-30;
 		}return y;}
 }
