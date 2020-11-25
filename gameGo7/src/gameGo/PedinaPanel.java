@@ -21,9 +21,9 @@ import it.unical.mat.embasp.platforms.desktop.DesktopHandler;
 import it.unical.mat.embasp.specializations.dlv.desktop.DLVDesktopService;
 
 public class PedinaPanel extends JPanel {
-	private List<Pedina> pedineDaEliminare = new LinkedList<Pedina>();
-	private List<Pedina> pedine = new LinkedList<Pedina>();
-	private scriviFile scrivi = new scriviFile();
+	private static List<Pedina> pedineDaEliminare = new LinkedList<Pedina>();
+	private static List<Pedina> pedine = new LinkedList<Pedina>();
+	private static scriviFile scrivi = new scriviFile();
 	private leggiFile leggi = new leggiFile();
 	private static String encodingResource="encodings/go";
 	private static Handler handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6"));
@@ -32,9 +32,10 @@ public class PedinaPanel extends JPanel {
 		pedine.add(pedina);
 		this.repaint();
 	}
-	Pedina ricorda;
-	boolean trovato = false;
-	public void removeCircle(int x,int y){
+	
+	static Pedina ricorda;
+	static boolean trovato = false;
+	public static void removeCircle(int x,int y){
 		for(Pedina p: pedine) {
 			//System.out.println("Pedine presenti" + p.getX() + " " + p.getY());
 			if(p.getX()==x && p.getY()==y ) {
@@ -60,54 +61,55 @@ public class PedinaPanel extends JPanel {
 	}
 	
 	void controlloChiNonHaVieDiFuga2() throws Exception { 
-		for(Pedina p: pedine) {
-			int numVicini = 0;
-			int posizioneInferiore = p.getX()-50;
-			int posizioneSuperiore = p.getX()+50;
-			int posizioneDestra = p.getY()+50;
-			int posizioneSinistra = p.getY()-50;
-			
-			
-			for(Pedina p1: pedine) {
-			if(p1.getX()==posizioneSuperiore && p1.getY()==p.getY() && p.getColor()!=p1.getColor()) 
-				numVicini++;
-			if(p1.getX()==posizioneInferiore && p1.getY()==p.getY() && p.getColor()!=p1.getColor()) 
-				numVicini++;
-			if(p1.getX() == p.getX() && p1.getY() == posizioneSinistra && p.getColor()!=p1.getColor()) 
-				numVicini++;
-			if(p1.getX() == p.getX() && p1.getY() == posizioneDestra  && p.getColor()!=p1.getColor()) 
-				numVicini++;
-			
-			}//for
-
-			//System.out.println("controllo: "+ p.getX()+" "+p.getY() +"numVicini: " + numVicini + "X: " + p.getX() + "Y: " + p.getX()  );
-			//se sei nel bordo:
-			if(p.getX() == 100 && numVicini>=3 || p.getY() == 500 && numVicini>=3 || p.getY() == 100 && numVicini>=3 || p.getX() == 500 && numVicini>=3)
-				pedineDaEliminare.add(p);
-				//removeCircle(p.getX(), p.getY());
-			
-			
-			// se sei nel "centro"
-			else if(p.getX() != 100 && numVicini>=4 && p.getY() != 500 && numVicini>=4 )
-				pedineDaEliminare.add(p);
-				//removeCircle(p.getX(), p.getY());
-			
-			
-			// se sei nell angolo
-			else if(p.getX() == 100 && p.getY() == 100 && numVicini>=2 )
-				pedineDaEliminare.add(p);
-				//removeCircle(p.getX(), p.getY());
-			else if(p.getX() == 500 && p.getY() == 100 && numVicini>=2 )
-				pedineDaEliminare.add(p);
-				//removeCircle(p.getX(), p.getY());
-			else if(p.getX() == 500 && p.getY() == 500 && numVicini>=2 )
-				pedineDaEliminare.add(p);
-				//removeCircle(p.getX(), p.getY());
-			else if(p.getX() == 100 && p.getY() == 500 && numVicini>=2 )
-				pedineDaEliminare.add(p);
-				//removeCircle(p.getX(), p.getY());
-		}
-		
+		//solve();
+//		for(Pedina p: pedine) {
+//			int numVicini = 0;
+//			int posizioneInferiore = p.getX()-50;
+//			int posizioneSuperiore = p.getX()+50;
+//			int posizioneDestra = p.getY()+50;
+//			int posizioneSinistra = p.getY()-50;
+//			
+//			
+//			for(Pedina p1: pedine) {
+//			if(p1.getX()==posizioneSuperiore && p1.getY()==p.getY() && p.getColor()!=p1.getColor()) 
+//				numVicini++;
+//			if(p1.getX()==posizioneInferiore && p1.getY()==p.getY() && p.getColor()!=p1.getColor()) 
+//				numVicini++;
+//			if(p1.getX() == p.getX() && p1.getY() == posizioneSinistra && p.getColor()!=p1.getColor()) 
+//				numVicini++;
+//			if(p1.getX() == p.getX() && p1.getY() == posizioneDestra  && p.getColor()!=p1.getColor()) 
+//				numVicini++;
+//			
+//			}//for
+//
+//			//System.out.println("controllo: "+ p.getX()+" "+p.getY() +"numVicini: " + numVicini + "X: " + p.getX() + "Y: " + p.getX()  );
+//			//se sei nel bordo:
+//			if(p.getX() == 100 && numVicini>=3 || p.getY() == 500 && numVicini>=3 || p.getY() == 100 && numVicini>=3 || p.getX() == 500 && numVicini>=3)
+//				pedineDaEliminare.add(p);
+//				//removeCircle(p.getX(), p.getY());
+//			
+//			
+//			// se sei nel "centro"
+//			else if(p.getX() != 100 && numVicini>=4 && p.getY() != 500 && numVicini>=4 )
+//				pedineDaEliminare.add(p);
+//				//removeCircle(p.getX(), p.getY());
+//			
+//			
+//			// se sei nell angolo
+//			else if(p.getX() == 100 && p.getY() == 100 && numVicini>=2 )
+//				pedineDaEliminare.add(p);
+//				//removeCircle(p.getX(), p.getY());
+//			else if(p.getX() == 500 && p.getY() == 100 && numVicini>=2 )
+//				pedineDaEliminare.add(p);
+//				//removeCircle(p.getX(), p.getY());
+//			else if(p.getX() == 500 && p.getY() == 500 && numVicini>=2 )
+//				pedineDaEliminare.add(p);
+//				//removeCircle(p.getX(), p.getY());
+//			else if(p.getX() == 100 && p.getY() == 500 && numVicini>=2 )
+//				pedineDaEliminare.add(p);
+//				//removeCircle(p.getX(), p.getY());
+//		}
+//		
 		//è il momento di eliminare le pedine segnate prima
 		for(Pedina d: pedineDaEliminare) {
 			removeCircle(d.getX(), d.getY());
@@ -120,6 +122,7 @@ public class PedinaPanel extends JPanel {
 		//String encodingResource="encodings/go";
 		//handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6"));
 		//Per Input
+		handler.removeAll();
 		InputProgram facts= new ASPInputProgram();
 		for(int i=100; i<501;i++) {
 			for(int j=100; j<501;j++) {
@@ -183,8 +186,9 @@ public class PedinaPanel extends JPanel {
 	}
 	
 	void controlloChiNonHaVieDiFuga() throws Exception {
-		String encodingResource="encodings/go";
-		handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6"));
+		handler.removeAll();
+		//String encodingResource="encodings/go";
+		//handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6"));
 		//Per Input
 		InputProgram facts= new ASPInputProgram();
 		for(int i=100; i<501;i++) {
@@ -250,7 +254,7 @@ public class PedinaPanel extends JPanel {
 
 	@Override
 	public void paint(Graphics g) {
-		ImageIcon i = new ImageIcon("../gameGo7/src/image/base1.png");
+		ImageIcon i = new ImageIcon("../gameGo7/src/image/base2.png");
 		i.paintIcon(this, g, 80, 80);
 		for(Pedina p: pedine) {
 			p.draw(g);
