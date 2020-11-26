@@ -28,40 +28,17 @@ public class leggiFile{
 		return false;
 	}			
 	
-public boolean coloreRosso (int a,int b) {
+
+	public int coloreAppartenenza (int a,int b) {
 		openFileS(a,b);
 		while(y.hasNext()){
 			int i = y.nextInt();
 			int j = y.nextInt();
 			int c = y.nextInt();
-			//int d = y.nextInt();
-			if(a==i && b==j && c == 1)
-				return true;
+			if(a==i && b==j)
+				return c;
 		}
-		return false;
+		return 2;
 	}	
-public boolean coloreBlu (int a,int b) {
-	openFileS(a,b);
-	while(y.hasNext()){
-		int i = y.nextInt();
-		int j = y.nextInt();
-		int c = y.nextInt();
-		if(a==i && b==j && c == 1)
-			return true;
-	}
-	return false;
-}	
-
-public int coloreAppartenenza (int a,int b) {
-	openFileS(a,b);
-	while(y.hasNext()){
-		int i = y.nextInt();
-		int j = y.nextInt();
-		int c = y.nextInt();
-		if(a==i && b==j)
-			return c;
-	}
-	return 2;
-}	
 }
 

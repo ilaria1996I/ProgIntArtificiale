@@ -17,7 +17,7 @@ private static Formatter x;
 	}//metodo
 	
 	public void aggiornaValore (int a, int b,int c) {
-		//il terzo valore è il colore 0 rosso --- 1 blu --- 2 nessun colore
+		//il terzo valore è il colore 0 nero --- 1 bianco --- 2 nessun colore
 		x.format("%d %d %d",a,b,c);
 		
 	}

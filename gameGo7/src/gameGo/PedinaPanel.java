@@ -3,12 +3,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.List;
-
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-
 import IA.AddB;
-import IA.AddInP;
 import IA.Occupato;
 import it.unical.mat.embasp.base.Handler;
 import it.unical.mat.embasp.base.InputProgram;
@@ -25,7 +22,7 @@ public class PedinaPanel extends JPanel {
 	private static scriviFile scrivi = new scriviFile();
 	private leggiFile leggi = new leggiFile();
 	private static String encodingResource="encodings/go";
-	private static Handler handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6"));
+	//private static 
 	
 	public void addPedina(Pedina pedina) {
 		pedine.add(pedina);
@@ -40,84 +37,84 @@ public class PedinaPanel extends JPanel {
 		return true;
 	}
 	
+	boolean nonPresenteGiaNero(int x, int y) {
+		for(Pedina p: pedine) {
+			if(p.getX()==x && p.getY()==y && p.getColor()==Color.black)
+				return false;
+		}
+		return true;
+	}
+	
 	void generaIFatti(int x, int y) {
-		InputProgram facts= new ASPInputProgram();
+	//In questo metodo si generano i fatti del giocatore reale
+	InputProgram facts= new ASPInputProgram();
 		for(int i=0; i<=540; i=i+30) {
 			for(int j=0; j<=540; j = j+30) {
-					int c = leggi.coloreAppartenenza(i,j);
-						if(c!=2) {
-							try {
+				int c = leggi.coloreAppartenenza(i,j);
+				if(c==0) {
+					try {
 						facts.addObjectInput(new Occupato(i,j,c));
 					} 
 					catch (Exception e) {
 						e.printStackTrace();
-			}
-		}
-	}
-}
-		handler.addProgram(facts);
-		//Per resto
-		InputProgram  program = new ASPInputProgram();
-		program.addFilesPath(encodingResource);
-		handler.addProgram(program);
-		//
-		try {
-			ASPMapper.getInstance().registerClass(AddB.class);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		handler.startSync();
-		Output o =  handler.startSync();
-		AnswerSets answers = (AnswerSets) o;
-		for(AnswerSet a:answers.getAnswersets()){
-			try {
-
-				for(Object obj:a.getAtoms()){
-					if(obj instanceof AddB)  {
-						AddB cell = (AddB) obj;
-						if(!leggi.coloreRosso(cell.getX(), cell.getY())) {
-						facts.addObjectInput(new Occupato(cell.getX(),cell.getY(),1));
-						//mettilo nella lista e fallo comparire
-						System.out.println(cell.getX() + " " + cell.getY());
-						addPedina(new Pedina(cell.getX(),cell.getY(), 25, Color.white));
-						scrivi.openFile(cell.getX(),cell.getY());
-						scrivi.aggiornaValore(cell.getX(),cell.getY(),1);
-						scrivi.chiudi();
 						}
 					}
 				}
-				System.out.println();
-			} catch (Exception e) {
-				System.out.println();
-			} 	
-		}
-		//resetta addb
-		handler.removeProgram(program);
-		handler.removeAll();
-	}
+			}
+	} //fine metodo generaIFatti
 	
-	void controlloChiNonHaVieDiFuga() throws Exception {
-		//Per Input
-		InputProgram facts= new ASPInputProgram();
-		for(int i=0; i<=540; i=i+30) {
-			for(int j=0; j<=540; j = j+30) {
-
-					int c = leggi.coloreAppartenenza(i,j);
-						if(c!=2) {
-							try {
+	void generaFattiPc(){
+	//In questo metodo si generano i fatti del PC
+	Handler handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6"));
+	InputProgram facts= new ASPInputProgram();
+		
+	for(int i=0; i<=540; i=i+30) {
+		for(int j=0; j<=540; j = j+30) {
+			int c = leggi.coloreAppartenenza(i,j);
+				if(c!=2) {
+					try {
 						facts.addObjectInput(new Occupato(i,j,c));
-						System.out.println(" " + i + " " + j + " " + c);
 					} 
 					catch (Exception e) {
 						e.printStackTrace();
-			}
+						}
+					} 
+				}//for j
+			}// for i
+		
+	facts.addFilesPath(encodingResource);
+	handler.addProgram(facts);
+		
+	try {
+		ASPMapper.getInstance().registerClass(AddB.class);	
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-	}
-}
+		
+	handler.startSync();
+	Output o =  handler.startSync();
+	AnswerSets answers = (AnswerSets) o;
+	for(AnswerSet a:answers.getAnswersets()){
+		try {
+			for(Object obj:a.getAtoms()){
+				if(obj instanceof AddB)  {
+					AddB cell = (AddB) obj;
+					facts.addObjectInput(new Occupato(cell.getX(),cell.getY(),1));
+					//mettilo nella lista e fallo comparire
+					System.out.println(cell.getX() + " " + cell.getY());
+					addPedina(new Pedina(cell.getX(),cell.getY(), 25, Color.white));
+					scrivi.openFile(cell.getX(),cell.getY());
+					scrivi.aggiornaValore(cell.getX(),cell.getY(),1);
+					scrivi.chiudi();	
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Errore con AddB");
+			} 	
+		}
 		handler.addProgram(facts);
-		handler.removeAll();	
-	}
+	} //generaFattiPc
+
 
 	@Override
 	public void paint(Graphics g) {

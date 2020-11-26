@@ -20,7 +20,9 @@ valore(540).
 
 colore(0).
 colore(1).
-
+%occupato(100,100,0).
+%occupato(100,130,0).
+%occupato(100,160,0).
 %colore 0 neri --- 1 bianchi --- 2 nessun colore perche non è ancora posizionata nessuna pedina!
 
 %decido in quale casella mi devo spostare
@@ -34,21 +36,32 @@ addB(X,Y)|noAddB(X,Y) :- valore(X), valore(Y).
 :- #count{X,Y : addB(X,Y)}<1.
 :- #count{X,Y : addB(X,Y)}>1.
 
-contaOriz(X,Y,T,C):- colore(C), occupato(X,Y,C), #count{Y2 : occupato(X,Y2,C), Y2= Y+50} = S1,#count{Y2 : occupato(X,Y2,C), Y2= Y+100} = S2,#count{Y2 : occupato(X,Y2,C), Y2= Y+150} = S3,#count{Y2 : occupato(X,Y2,C), Y2= Y+200} = S4, S = S1+S2+S3+S4, S>1, T = S+1.
-contaVer(X,Y,T,C):- colore(C), occupato(X,Y,C),#count{X2 : occupato(X2,Y,C), X2= X+50} = S2,#count{X2 : occupato(X2,Y,C), X2= X+100} = S3,#count{X2 : occupato(X2,Y,C), X2= Y+150} = S4,#count{X2 : occupato(X2,Y,C), Y2= Y+200} = S1,  S = S1+S2+S3+S4, S>1, T = S+1.
-contaOb(X,Y,T,C):- colore(C), occupato(X,Y,C),#count{X2,Y2 : occupato(X2,Y2,C), X2= X+50,Y2= Y+50} = S1,#count{X2,Y2 : occupato(X2,Y2,C), X2= X+100,Y2= Y+100} = S2,#count{X2,Y2 : occupato(X2,Y2,C), X2= X+150,Y2= Y+150} = S3,#count{X2,Y2 : occupato(X2,Y2,C), X2= X+200,Y2= Y+200} = S4,  S = S1+S2+S3+S4, S>1, T = S+1.
+contaOriz(X,T,C):- colore(C), occupato(X,Y,C), #count{Y2 : occupato(X,Y2,C), Y2= Y+30} = S1,#count{Y2 : occupato(X,Y2,C), Y2= Y+60} = S2,#count{Y2 : occupato(X,Y2,C), Y2= Y+90} = S3,#count{Y2 : occupato(X,Y2,C), Y2= Y+120} = S4, S = S1+S2+S3+S4, S>1, T = S+1.
+contaVer(Y,T,C):- colore(C), occupato(X,Y,C),#count{X2 : occupato(X2,Y,C), X2= X+30} = S2,#count{X2 : occupato(X2,Y,C), X2= X+60} = S3,#count{X2 : occupato(X2,Y,C), X2= Y+90} = S4,#count{X2 : occupato(X2,Y,C), Y2= Y+120} = S1,  S = S1+S2+S3+S4, S>1, T = S+1.
+contaOb(X,Y,T,C):- colore(C), occupato(X,Y,C),#count{X2,Y2 : occupato(X2,Y2,C), X2= X+30,Y2= Y+30} = S1,#count{X2,Y2 : occupato(X2,Y2,C), X2= X+60,Y2= Y+60} = S2,#count{X2,Y2 : occupato(X2,Y2,C), X2= X+90,Y2= Y+90} = S3,#count{X2,Y2 : occupato(X2,Y2,C), X2= X+120,Y2= Y+120} = S4,  S = S1+S2+S3+S4, S>1, T = S+1.
+
+%posizione vicino all avversario
+nemicoConCellaAffiancoVuotaX(X1,Y):- occupato(X,Y,0), not occupato(X1,Y,0),not occupato(X1,Y,1), X1 = X+30.
+nemicoConCellaAffiancoVuotaY(X,Y1):- occupato(X,Y,0), not occupato(X,Y1,0),not occupato(X,Y1,1), Y1 = Y+30.
+nemicoConCellaAffiancoVuotaXY(X1,Y1):- occupato(X,Y,0), not occupato(X1,Y1,0),not occupato(X1,Y1,1),X1 = X+30, Y1 = Y+30.
+
+:~ contaOriz(X,T,0), T=2, not addB(X,Y1),nemicoConCellaAffiancoVuotaY(X,Y1). [T@2]
+:~ contaOriz(X,T,0), T=3, not addB(X,Y1),nemicoConCellaAffiancoVuotaY(X,Y1). [T@3]
+
+:~ contaVer(Y,T,0), T=3, not addB(X1,Y),nemicoConCellaAffiancoVuotaX(X1,Y) . [T@2]
+:~ contaVer(Y,T,0), T=4, not addB(X1,Y),nemicoConCellaAffiancoVuotaX(X1,Y). [T@3]
+
+:~ contaOb(X,Y,T,C), T=3, not addB(X1,Y1), nemicoConCellaAffiancoVuotaXY(X1,Y1). [T@2]
+:~ contaOb(X,Y,T,C), T=4, not addB(X1,Y1), nemicoConCellaAffiancoVuotaXY(X1,Y1). [T@3]
 
 
-:~ contaOriz(X,Y,T,C), T=3, not addB(X,Y1), Y1 = Y + 200, X>100. [T@2]
-:~ contaOriz(X,Y,T,C), T=4, not addB(X,Y1), Y1 = Y + 200, X>100. [T@3]
-:~ contaOriz(X,Y,T,C), T=4, not addB(X,Y1), Y1 = Y + 200, X=100. [T@3]
 
-:~ contaVer(X,Y,T,C), T=3, not addB(X1,Y), X1 = X + 200, Y>100. [T@2]
-:~ contaVer(X,Y,T,C), T=4, not addB(X1,Y), X1 = X + 200, Y>100. [T@3]
-:~ contaVer(X,Y,T,C), T=4, not addB(X1,Y), X1 = X + 200, Y=100. [T@3]
+%DA FARE: bisogna fare il win!
 
-:~ contaOb(X,Y,T,C), T=3, not addB(X1,Y1), X1 = X + 200, Y>100, Y1 = Y + 200, X>100. [T@2]
-:~ contaOb(X,Y,T,C), T=4, not addB(X1,Y1), X1 = X + 200, Y>100, Y1 = Y + 200, X>100. [T@3]
-:~ contaOb(X,Y,T,C), T=4, not addB(X1,Y1), X1 = X + 200, Y>100, Y1 = Y + 200, X=100. [T@3]
 
-%bisogna fare il win!
+
+
+
+
+
+
