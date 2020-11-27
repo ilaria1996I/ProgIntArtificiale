@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import IA.AddB;
 import IA.Occupato;
+import IA.Win;
 import it.unical.mat.embasp.base.Handler;
 import it.unical.mat.embasp.base.InputProgram;
 import it.unical.mat.embasp.base.Output;
@@ -22,6 +23,11 @@ public class PedinaPanel extends JPanel {
 	private static scriviFile scrivi = new scriviFile();
 	private leggiFile leggi = new leggiFile();
 	private static String encodingResource="encodings/go";
+	BackgroundImageJFrame risultato;
+	ImageIcon vittoria = new ImageIcon("../gameGo7/src/image/win.jpg");
+	ImageIcon sconfitta = new ImageIcon("../gameGo7/src/image/gameOver.jpg");
+	InterfP InterfP = new InterfP();
+	//static Handler handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6"));
 	//private static 
 	
 	public void addPedina(Pedina pedina) {
@@ -61,6 +67,7 @@ public class PedinaPanel extends JPanel {
 					}
 				}
 			}
+		vincitore();
 	} //fine metodo generaIFatti
 	
 	void generaFattiPc(){
@@ -101,7 +108,6 @@ public class PedinaPanel extends JPanel {
 					AddB cell = (AddB) obj;
 					facts.addObjectInput(new Occupato(cell.getX(),cell.getY(),1));
 					//mettilo nella lista e fallo comparire
-					System.out.println(cell.getX() + " " + cell.getY());
 					addPedina(new Pedina(cell.getX(),cell.getY(), 25, Color.white));
 					scrivi.openFile(cell.getX(),cell.getY());
 					scrivi.aggiornaValore(cell.getX(),cell.getY(),1);
@@ -113,8 +119,62 @@ public class PedinaPanel extends JPanel {
 			} 	
 		}
 		handler.addProgram(facts);
+		vincitore();
 	} //generaFattiPc
 
+
+	void vincitore(){ 
+		//In questo metodo si generano i fatti del PC
+		Handler handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6"));
+		InputProgram facts= new ASPInputProgram();
+			
+		for(int i=0; i<=540; i=i+30) {
+			for(int j=0; j<=540; j = j+30) {
+				int c = leggi.coloreAppartenenza(i,j);
+					if(c!=2) {
+						try {
+							facts.addObjectInput(new Occupato(i,j,c));
+						} 
+						catch (Exception e) {
+							e.printStackTrace();
+							}
+						} 
+					}//for j
+				}// for i
+			
+		facts.addFilesPath(encodingResource);
+		handler.addProgram(facts);
+			
+		try {
+			ASPMapper.getInstance().registerClass(Win.class);	
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		handler.startSync();
+		Output o =  handler.startSync();
+		AnswerSets answers = (AnswerSets) o;
+		for(AnswerSet a:answers.getAnswersets()){
+			try {
+				for(Object obj:a.getAtoms()){
+					if(obj instanceof Win)  {
+						Win cell = (Win) obj;
+						if(cell.getC() == 0) {
+						risultato = new BackgroundImageJFrame (vittoria);
+						InterfP.windows.setVisible(false);
+						}
+						else {
+						risultato = new BackgroundImageJFrame (sconfitta);
+						InterfP.windows.setVisible(false);
+						}
+						}
+					}
+				} catch (Exception e) {
+					System.out.println("Errore con Win");
+				} 	
+			}
+			handler.addProgram(facts);
+	} //vincitore
 
 	@Override
 	public void paint(Graphics g) {

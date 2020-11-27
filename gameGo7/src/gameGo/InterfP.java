@@ -22,6 +22,8 @@ import java.io.PrintWriter;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.MediaTracker;
 import java.awt.Toolkit;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,12 +33,13 @@ public class InterfP extends JFrame {
 	private static JPanel contentPane;
 	private static InterfP frame = new InterfP();
 	static JFrame windows = new JFrame("Pedina");
+	static JFrame risultato = new JFrame("Risultato");
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					InterfP frame = new InterfP();
+					//InterfP frame = new InterfP();
 					frame.setResizable(false);
 					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					frame.setBounds(700, 700, 650, 600);
@@ -45,7 +48,8 @@ public class InterfP extends JFrame {
 					frame.contentPane.setLayout(new BorderLayout(0, 0));
 					frame.setContentPane(contentPane);
 					frame.setVisible(true);
-					
+	
+				
 					Dimension screenSize = Toolkit.getDefaultToolkit ().getScreenSize ();
 					Dimension frameSize = frame.getSize ();
 					frame.setLocation ((screenSize.width - frameSize.width) / 2,
@@ -77,6 +81,8 @@ public class InterfP extends JFrame {
 							windows.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 							windows.getContentPane().setLayout(null);
 
+						
+							
 							try {
 								creaFileTxt() ;
 							} catch (IOException e) {
@@ -97,13 +103,18 @@ public class InterfP extends JFrame {
 					lblNewLabel.setOpaque(false);
 					contentPane.add(lblNewLabel, BorderLayout.CENTER);
 					
+					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-	private static void creaFileTxt() throws IOException{
+
+	
+	
+ 	private static void creaFileTxt() throws IOException{
 	for(int i=0; i<=540; i+=30) {
     	for(int l=0; l<=540; l+=30) {
     		String nome=("valori/"+i+" "+l);

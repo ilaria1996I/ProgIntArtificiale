@@ -32,6 +32,7 @@ public class PedinaClickListener extends MouseAdapter {
 	public void mouseClicked(MouseEvent e) {
 		//la tabella varia da 0 a 540 ogni cella misura 30
 		
+		
 		int x = e.getX() - 15;
 		int y = e.getY() - 15;
 		int distanzaDaX = accettaMossaX(x);
@@ -43,7 +44,6 @@ public class PedinaClickListener extends MouseAdapter {
 
 		if(leggi.readFileS(nuovoXL, nuovoYL) && panel.nonPresenteGiaBianca(nuovoXL, nuovoYL) && panel.nonPresenteGiaNero(nuovoXL, nuovoYL) && nuovoYL<=540 && nuovoXL>=0 && nuovoXL<=540 && nuovoYL>=0) {
 			panel.addPedina(new Pedina(nuovoXL, nuovoYL, 25, Color.black));
-			panel.generaIFatti(nuovoXL, nuovoYL);
 			scrivi.openFile(nuovoXL, nuovoYL);
 			scrivi.aggiornaValore(nuovoXL, nuovoYL,0);
 			scrivi.chiudi();		
@@ -54,6 +54,7 @@ public class PedinaClickListener extends MouseAdapter {
 		}
 		else
 			System.out.println("prova a essere un pò piu preciso! ");
+		//panel.vincitore();
 		} // fine metodo mouseClicked
 
 	
