@@ -1,6 +1,7 @@
 package gameGo;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class leggiFile{
@@ -14,7 +15,7 @@ public class leggiFile{
 				System.out.println("Problema lettura file" );
 				}
 			}
-	public boolean readFileS (int a,int b) {
+	public boolean readFileS (int a,int b)  throws IOException{
 		
 		openFileS(a,b);
 		

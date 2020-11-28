@@ -1,10 +1,14 @@
 package gameGo;
-import java.awt.Color;  
+import java.awt.Color; 
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import IA.AddB;
 import IA.Occupato;
@@ -19,6 +23,7 @@ import it.unical.mat.embasp.languages.asp.AnswerSets;
 import it.unical.mat.embasp.platforms.desktop.DesktopHandler;
 import it.unical.mat.embasp.specializations.dlv.desktop.DLVDesktopService;
 
+
 public class PedinaPanel extends JPanel {
 	private static List<Pedina> pedine = new LinkedList<Pedina>();
 	private static scriviFile scrivi = new scriviFile();
@@ -27,10 +32,8 @@ public class PedinaPanel extends JPanel {
 	BackgroundImageJFrame risultato; 
 	ImageIcon vittoria = new ImageIcon("image"+File.separator+"win.jpg");
 	ImageIcon sconfitta = new ImageIcon("image"+File.separator+"gameOver.jpg");
-	
 	InterfP InterfP = new InterfP();
-	//static Handler handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6"));
-	//private static 
+	
 	
 	public void addPedina(Pedina pedina) {
 		pedine.add(pedina);
@@ -163,11 +166,11 @@ public class PedinaPanel extends JPanel {
 						Win cell = (Win) obj;
 						if(cell.getC() == 0) {
 						risultato = new BackgroundImageJFrame (vittoria);
-						InterfP.windows.setVisible(false);
+						gameGo.InterfP.windows.setVisible(false);
 						}
 						else {
 						risultato = new BackgroundImageJFrame (sconfitta);
-						InterfP.windows.setVisible(false);
+						gameGo.InterfP.windows.setVisible(false);
 						}
 						}
 					}

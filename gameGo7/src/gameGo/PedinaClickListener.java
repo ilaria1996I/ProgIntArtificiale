@@ -1,7 +1,9 @@
 package gameGo;
-import java.awt.Color;      
+import java.awt.Color;       
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+
 import IA.AddB;
 import IA.Occupato;
 import it.unical.mat.embasp.base.Handler;
@@ -20,6 +22,7 @@ public class PedinaClickListener extends MouseAdapter {
 	private scriviFile scrivi = new scriviFile();
 	private static String encodingResource="encodings/go";
 	public Handler handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6"));
+	
 
 	
 	public PedinaClickListener(PedinaPanel panel) {
@@ -42,18 +45,23 @@ public class PedinaClickListener extends MouseAdapter {
 		int nuovoYL = - distanzaDaY + y;
 				
 
-		if(leggi.readFileS(nuovoXL, nuovoYL) && panel.nonPresenteGiaBianca(nuovoXL, nuovoYL) && panel.nonPresenteGiaNero(nuovoXL, nuovoYL) && nuovoYL<=540 && nuovoXL>=0 && nuovoXL<=540 && nuovoYL>=0) {
-			panel.addPedina(new Pedina(nuovoXL, nuovoYL, 25, Color.black));
-			scrivi.openFile(nuovoXL, nuovoYL);
-			scrivi.aggiornaValore(nuovoXL, nuovoYL,0);
-			scrivi.chiudi();		
-			panel.generaFattiPc();
-			}
-			else
-			System.out.println("il valore non è stato inserito");
+		try {
+			if(leggi.readFileS(nuovoXL, nuovoYL) && panel.nonPresenteGiaBianca(nuovoXL, nuovoYL) && panel.nonPresenteGiaNero(nuovoXL, nuovoYL) && nuovoYL<=540 && nuovoXL>=0 && nuovoXL<=540 && nuovoYL>=0) {
+				panel.addPedina(new Pedina(nuovoXL, nuovoYL, 25, Color.black));
+				scrivi.openFile(nuovoXL, nuovoYL);
+				scrivi.aggiornaValore(nuovoXL, nuovoYL,0);
+				scrivi.chiudi();		
+				panel.generaFattiPc();
+				}
+				else
+				System.out.println("il valore non è stato inserito");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			System.out.println("Prova a essere un pò piu preciso!");
+		}
 		}
 		else
-			System.out.println("prova a essere un pò piu preciso! ");
+			System.out.println("Prova a essere un pò piu preciso! ");
 		//panel.vincitore();
 		} // fine metodo mouseClicked
 
