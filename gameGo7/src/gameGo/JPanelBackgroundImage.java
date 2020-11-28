@@ -6,7 +6,7 @@ import java.awt.event.*;
 class BackgroundImageJFrame{
     public BackgroundImageJFrame(ImageIcon i) {
     	JFrame frame = new JFrame();
-    	frame.setSize(500,500);
+    	frame.setSize(450,450);
     	frame.setVisible(true);
     	frame.setLayout(new BorderLayout());
     	

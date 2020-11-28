@@ -56,24 +56,24 @@ public class PedinaPanel extends JPanel {
 		return true;
 	}
 	
-	void generaIFatti(int x, int y) {
-	//In questo metodo si generano i fatti del giocatore reale
-	InputProgram facts= new ASPInputProgram();
-		for(int i=0; i<=540; i=i+30) {
-			for(int j=0; j<=540; j = j+30) {
-				int c = leggi.coloreAppartenenza(i,j);
-				if(c==0) {
-					try {
-						facts.addObjectInput(new Occupato(i,j,c));
-					} 
-					catch (Exception e) {
-						e.printStackTrace();
-						}
-					}
-				}
-			}
-		vincitore();
-	} //fine metodo generaIFatti
+//	void generaIFatti(int x, int y) {
+//	//In questo metodo si generano i fatti del giocatore reale
+//	InputProgram facts= new ASPInputProgram();
+//		for(int i=0; i<=540; i=i+30) {
+//			for(int j=0; j<=540; j = j+30) {
+//				int c = leggi.coloreAppartenenza(i,j);
+//				if(c==0) {
+//					try {
+//						facts.addObjectInput(new Occupato(i,j,c));
+//					} 
+//					catch (Exception e) {
+//						e.printStackTrace();
+//						}
+//					}
+//				}
+//			}
+//		vincitore();
+//	} //fine metodo generaIFatti
 	
 	void generaFattiPc(){
 	//In questo metodo si generano i fatti del PC
@@ -128,7 +128,7 @@ public class PedinaPanel extends JPanel {
 	} //generaFattiPc
 
 
-	void vincitore(){ 
+	int vincitore(){ 
 		//In questo metodo si generano i fatti del PC
 		Handler handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6"));
 		InputProgram facts= new ASPInputProgram();
@@ -167,10 +167,12 @@ public class PedinaPanel extends JPanel {
 						if(cell.getC() == 0) {
 						risultato = new BackgroundImageJFrame (vittoria);
 						gameGo.InterfP.windows.setVisible(false);
+						return 0;
 						}
 						else {
 						risultato = new BackgroundImageJFrame (sconfitta);
 						gameGo.InterfP.windows.setVisible(false);
+						return 1;
 						}
 						}
 					}
@@ -178,7 +180,7 @@ public class PedinaPanel extends JPanel {
 					System.out.println("Errore con Win");
 				} 	
 			}
-			handler.addProgram(facts);
+			return 2;
 	} //vincitore
 
 	@Override

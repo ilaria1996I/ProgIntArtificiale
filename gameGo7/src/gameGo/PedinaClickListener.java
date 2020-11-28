@@ -50,8 +50,11 @@ public class PedinaClickListener extends MouseAdapter {
 				panel.addPedina(new Pedina(nuovoXL, nuovoYL, 25, Color.black));
 				scrivi.openFile(nuovoXL, nuovoYL);
 				scrivi.aggiornaValore(nuovoXL, nuovoYL,0);
-				scrivi.chiudi();		
-				panel.generaFattiPc();
+				scrivi.chiudi();
+				
+				// se ritorna 2 vuol dire che ancora non ce nessun vincitore perciò la partita puo continuare!
+				if(panel.vincitore()==2) 
+					panel.generaFattiPc();
 				}
 				else
 				System.out.println("il valore non è stato inserito");

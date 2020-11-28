@@ -32,7 +32,7 @@ addB(X,Y)|noAddB(X,Y) :- valore(X), valore(Y).
 :- #count{X,Y : addB(X,Y)}!=1.
 
 contaOriz(X,T,C):- occupato(X,Y,C), #count{Y2 : occupato(X,Y2,C), Y2= Y+30} = S1,#count{Y2 : occupato(X,Y2,C), Y2= Y+60} = S2,#count{Y2 : occupato(X,Y2,C), Y2= Y+90} = S3,#count{Y2 : occupato(X,Y2,C), Y2= Y+120} = S4, S = S1+S2+S3+S4, S>1, T = S+1.
-contaVer(Y,T,C):- occupato(X,Y,C),#count{X2 : occupato(X2,Y,C), X2= X+30} = S2,#count{X2 : occupato(X2,Y,C), X2= X+60} = S3,#count{X2 : occupato(X2,Y,C), X2= Y+90} = S4,#count{X2 : occupato(X2,Y,C), X2= X+120} = S1,  S = S1+S2+S3+S4, S>1, T = S+1.
+contaVer(Y,T,C):- occupato(X,Y,C),#count{X2 : occupato(X2,Y,C), X2= X+30} = S2,#count{X2 : occupato(X2,Y,C), X2= X+60} = S3,#count{X2 : occupato(X2,Y,C), X2= X+90} = S4,#count{X2 : occupato(X2,Y,C), X2= X+120} = S1,  S = S1+S2+S3+S4, S>1, T = S+1.
 contaOb(X,Y,T,C):- occupato(X,Y,C),#count{X2,Y2 : occupato(X2,Y2,C), X2= X+30,Y2= Y+30} = S1,#count{X2,Y2 : occupato(X2,Y2,C), X2= X+60,Y2= Y+60} = S2,#count{X2,Y2 : occupato(X2,Y2,C), X2= X+90,Y2= Y+90} = S3,#count{X2,Y2 : occupato(X2,Y2,C), X2= X+120,Y2= Y+120} = S4,  S = S1+S2+S3+S4, S>1, T = S+1.
 
 %per bloccare l avversario!
