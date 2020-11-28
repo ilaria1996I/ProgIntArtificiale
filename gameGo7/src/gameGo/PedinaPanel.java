@@ -1,6 +1,7 @@
 package gameGo;
 import java.awt.Color;  
 import java.awt.Graphics;
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -23,9 +24,10 @@ public class PedinaPanel extends JPanel {
 	private static scriviFile scrivi = new scriviFile();
 	private leggiFile leggi = new leggiFile();
 	private static String encodingResource="encodings/go";
-	BackgroundImageJFrame risultato;
-	ImageIcon vittoria = new ImageIcon("../gameGo7/src/image/win.jpg");
-	ImageIcon sconfitta = new ImageIcon("../gameGo7/src/image/gameOver.jpg");
+	BackgroundImageJFrame risultato; 
+	ImageIcon vittoria = new ImageIcon("image"+File.separator+"win.jpg");
+	ImageIcon sconfitta = new ImageIcon("image"+File.separator+"gameOver.jpg");
+	
 	InterfP InterfP = new InterfP();
 	//static Handler handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6"));
 	//private static 
@@ -178,7 +180,7 @@ public class PedinaPanel extends JPanel {
 
 	@Override
 	public void paint(Graphics g) {
-		ImageIcon i = new ImageIcon("../gameGo7/src/image/base3.png");
+		ImageIcon i = new ImageIcon("image"+File.separator+"base3.png");
 		i.paintIcon(this, g, 0, 0);
 		for(Pedina p: pedine) {
 			p.draw(g);

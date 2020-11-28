@@ -99,7 +99,7 @@ public class InterfP extends JFrame {
 						}
 					});
 					JLabel lblNewLabel = new JLabel("");
-					lblNewLabel.setIcon(new ImageIcon(InterfP.class.getResource("/image/sfondo.png")));
+					lblNewLabel.setIcon(new ImageIcon("image"+File.separator+"sfondo.png"));
 					lblNewLabel.setOpaque(false);
 					contentPane.add(lblNewLabel, BorderLayout.CENTER);
 					
