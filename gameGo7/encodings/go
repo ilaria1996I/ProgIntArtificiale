@@ -55,13 +55,13 @@ contaOb(X,Y,T,C):- occupato(X,Y,C),#count{X2,Y2 : occupato(X2,Y2,C), X2= X+30,Y2
 :~ contaOb(X,Y,T,C), T>=3, not addB(X1,Y1), occupato(X,Y,0), not occupato(X1,Y1,0),not occupato(X1,Y1,1),X1 = X-30, Y1 = Y-30. [T@3]
 
 % per vincere
-:~ contaOriz(X,T,1), T >= 2. [T@1]
-:~ contaVer(Y,T,1), T >= 2. [T@1]
-:~ contaOb(X,Y,T,1), T >= 2. [T@1]
+:~ contaOriz(X,T,1), T >= 2. [T@2]
+:~ contaVer(Y,T,1), T >= 2. [T@2]
+:~ contaOb(X,Y,T,1), T >= 2. [T@2]
 
-:~ contaOriz(X,T,1), T >= 3. [T@2]
-:~ contaVer(Y,T,1), T >= 3. [T@2]
-:~ contaOb(X,Y,T,1), T >= 3. [T@2]
+:~ contaOriz(X,T,1), T >= 3. [T@3]
+:~ contaVer(Y,T,1), T >= 3. [T@3]
+:~ contaOb(X,Y,T,1), T >= 3. [T@3]
 
 win(C) :- contaOriz(X,5,C).
 win(C) :- contaVer(Y,5,C).
