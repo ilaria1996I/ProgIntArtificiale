@@ -47,9 +47,11 @@ public class PedinaClickListener extends MouseAdapter {
 
 		try {
 			if(leggi.readFileS(nuovoXL, nuovoYL) && panel.nonPresenteGiaBianca(nuovoXL, nuovoYL) && panel.nonPresenteGiaNero(nuovoXL, nuovoYL) && nuovoYL<=540 && nuovoXL>=0 && nuovoXL<=540 && nuovoYL>=0) {
+				//System.out.print(nuovoXL + " "+ nuovoYL);
 				panel.addPedina(new Pedina(nuovoXL, nuovoYL, 25, Color.black));
 				scrivi.openFile(nuovoXL, nuovoYL);
 				scrivi.aggiornaValore(nuovoXL, nuovoYL,0);
+				
 				scrivi.chiudi();
 				
 				// se ritorna 2 vuol dire che ancora non ce nessun vincitore perciò la partita puo continuare!
