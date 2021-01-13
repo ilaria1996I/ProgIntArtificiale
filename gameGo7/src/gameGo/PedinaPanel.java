@@ -27,7 +27,7 @@ import it.unical.mat.embasp.specializations.dlv.desktop.DLVDesktopService;
 public class PedinaPanel extends JPanel {
 	private static List<Pedina> pedine = new LinkedList<Pedina>();
 	private static scriviFile scrivi = new scriviFile();
-	private leggiFile leggi = new leggiFile();
+	private LeggiFile leggi = new LeggiFile();
 	private static String encodingResource="encodings/go";
 	BackgroundImageJFrame risultato; 
 	ImageIcon vittoria = new ImageIcon("image"+File.separator+"win.jpg");

@@ -3,11 +3,11 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import javazoom.jl.player.Player;
 
-public class musicaAvvioPartita {
+public class MusicaAvvioPartita {
 	    private String filename;
 	    private static Player player;
 	    static Thread playMusic;
-	  	    public musicaAvvioPartita(String filename) {
+	  	    public MusicaAvvioPartita(String filename) {
 	        this.filename = filename;
 	    }
 	    public void play() {

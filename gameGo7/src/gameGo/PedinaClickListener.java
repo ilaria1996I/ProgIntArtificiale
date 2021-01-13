@@ -18,7 +18,7 @@ import it.unical.mat.embasp.specializations.dlv.desktop.DLVDesktopService;
 
 public class PedinaClickListener extends MouseAdapter {
 	private PedinaPanel panel;
-	private leggiFile leggi = new leggiFile();
+	private LeggiFile leggi = new LeggiFile();
 	private scriviFile scrivi = new scriviFile();
 	private static String encodingResource="encodings/go";
 	public Handler handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6"));

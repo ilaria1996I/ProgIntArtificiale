@@ -36,7 +36,7 @@ public class InterfP extends JFrame {
 	private static InterfP frame = new InterfP();
 	static JFrame windows = new JFrame("Pedina");
 	static JFrame risultato = new JFrame("Risultato");
-	static musicaAvvioPartita principale = new musicaAvvioPartita("PPAP - Instrumental bene.mp3");
+	static MusicaAvvioPartita principale = new MusicaAvvioPartita("PPAP - Instrumental bene.mp3");
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

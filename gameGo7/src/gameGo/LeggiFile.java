@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class leggiFile{
+public class LeggiFile{
 	private Scanner y;
 	
 	public void openFileS(int a,int b) {
