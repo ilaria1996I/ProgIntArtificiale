@@ -18,7 +18,7 @@ valore(480).
 valore(510).
 valore(540).
 
-occupato(360,360,0).
+
 %decido in quale casella inserisco la pedina
 addB(X,Y)|noAddB(X,Y) :- valore(X), valore(Y).
 
@@ -34,25 +34,6 @@ contaTuttiOccupatiAvversario(T) :-#count{X,Y: occupato(X,Y,1)} = T.
 :- contaTuttiOccupatiAvversario(0),addB(X,Y), X>330.
 :- contaTuttiOccupatiAvversario(0),addB(X,Y), Y>330.
 
-valore(0).
-valore(30).
-valore(60).
-valore(90).
-valore(120).
-valore(150).
-valore(180).
-valore(210).
-valore(240).
-valore(270).
-valore(300).
-valore(330).
-valore(360).
-valore(390).
-valore(420).
-valore(450).
-valore(480).
-valore(510).
-valore(540).
 
 viciniOriz(X,Y,C):- occupato(X,Y,C), occupato(X1,Y,C), X=X1+30.
 viciniVert(X,Y,C):- occupato(X,Y,C), occupato(X,Y1,C), Y=Y1+30.
