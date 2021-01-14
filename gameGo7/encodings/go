@@ -1,10 +1,3 @@
-%LEGGENDA:
-% X = posizione della X.
-% Y = posizione della Y.
-% T = si riferisce ad un conteggio di un gruppo di pedine. 
-% C = colore della pedina in "ESAME", 0 neri --- 1 bianco.
-
-%questi valori sono le posizione delle celle
 valore(0).
 valore(30).
 valore(60).
@@ -25,15 +18,22 @@ valore(480).
 valore(510).
 valore(540).
 
-
+occupato(360,360,0).
 %decido in quale casella inserisco la pedina
 addB(X,Y)|noAddB(X,Y) :- valore(X), valore(Y).
 
-%non posso aggiungere pedine in una casella che non è libera
+%non posso aggiungere pedine in una casella che non Ã¨ libera
 :- addB(X,Y), occupato(X,Y,C1).
 
 %deve nascere esattamente un addB 
 :- #count{X,Y : addB(X,Y)}!=1.
+
+contaTuttiOccupatiAvversario(T) :-#count{X,Y: occupato(X,Y,1)} = T. 
+:- contaTuttiOccupatiAvversario(0),addB(X,Y), X<90.
+:- contaTuttiOccupatiAvversario(0),addB(X,Y), Y<90.
+:- contaTuttiOccupatiAvversario(0),addB(X,Y), X>390.
+:- contaTuttiOccupatiAvversario(0),addB(X,Y), Y>390.
+
 
 %conta i valori dello dello stesso colore in orizzontale, verticale, obliquo
 contaOriz(X,T,C):- occupato(X,Y,C), #count{Y2 : occupato(X,Y2,C), Y2= Y+30} = S1,#count{Y2 : occupato(X,Y2,C), Y2= Y+60} = S2,#count{Y2 : occupato(X,Y2,C), Y2= Y+90} = S3,#count{Y2 : occupato(X,Y2,C), Y2= Y+120} = S4, S = S1+S2+S3+S4, S>1, T = S+1.
@@ -43,33 +43,33 @@ contaObSix(X,Y,T,C):- occupato(X,Y,C), #count{X2,Y2 : occupato(X2,Y2,C), X2= X-3
 
 
 
-				%Blocco di codice Per Difesa (per evitare che l'avversario vince)
-%primo blocco: col il primo blocco si cerca di bloccare l'avversario mettendo delle pedine nella parte SUPERIORE/DESTRA del suo blocco
+				%Blocco di codice Per Difesa (per evitare che lavversario vince)
+%primo blocco: col il primo blocco si cerca di bloccare lavversario mettendo delle pedine nella parte SUPERIORE/DESTRA del suo blocco
 :~ contaOriz(X,T,0), T>=3, not addB(X,Y1),occupato(X,Y,0), not occupato(X,Y1,0),not occupato(X,Y1,1), Y1 = Y+30. [T@3]
 :~ contaVer(Y,T,0), T>=3, not addB(X1,Y),occupato(X,Y,0), not occupato(X1,Y,0),not occupato(X1,Y,1), X1 = X+30. [T@3]
-:~ contaOb(X,Y,T,0), T>=3, not addB(X1,Y1), occupato(X,Y,0), not occupato(X1,Y1,0),not occupato(X1,Y1,1),X1 = X+30, Y1 = Y+30. [T@3]
+:~ contaOb(X,Y,T,0), T>=3, not addB(X1,Y1), occupato(X,Y,0), not occupato(X1,Y1,0),not occupato(X1,Y1,1),X1 = X-30, Y1 = Y-30. [T@3]
 :~ contaObSix(X,Y,T,0), T>=3, not addB(X1,Y1), occupato(X,Y,0), not occupato(X1,Y1,0),not occupato(X1,Y1,1),X1 = X+30, Y1 = Y-30. [T@3]
 
-%secondo blocco: col il primo blocco si cerca di bloccare l'avversario mettendo delle pedine nella parte INFERIORE/SINISTRA del suo blocco
+%secondo blocco: col il primo blocco si cerca di bloccare lavversario mettendo delle pedine nella parte INFERIORE/SINISTRA del suo blocco
 :~ contaOriz(X,T,0), T>=3, not addB(X,Y1),occupato(X,Y,0), not occupato(X,Y1,0),not occupato(X,Y1,1), Y1 = Y-30. [T@3]
 :~ contaVer(Y,T,0), T>=3, not addB(X1,Y),occupato(X,Y,0), not occupato(X1,Y,0),not occupato(X1,Y,1), X1 = X-30. [T@3]
-:~ contaOb(X,Y,T,0), T>=3, not addB(X1,Y1), occupato(X,Y,0), not occupato(X1,Y1,0),not occupato(X1,Y1,1),X1 = X-30, Y1 = Y-30. [T@3]
+:~ contaOb(X,Y,T,0), T>=3, not addB(X1,Y1), occupato(X,Y,0), not occupato(X1,Y1,0),not occupato(X1,Y1,1),X1 = X+(T*30), Y1 = (T*30)+Y. [T@3]
 :~ contaObSix(X,Y,T,0), T>=3, not addB(X1,Y1), occupato(X,Y,0), not occupato(X1,Y1,0),not occupato(X1,Y1,1),X1 = X-(T*30), Y1 = (T*30)+Y. [T@3] 
 
 
 
 				%Blocco di codice Per Vincere
 %primo blocco: col il primo blocco si cerca di inserire pedine nella parte SUPERIORE/DESTRA del blocco del PC
-:~ contaOriz(X,T,1), T>=3, not addB(X,Y1),occupato(X,Y,1), not occupato(X,Y1,1),not occupato(X,Y1,0), Y1 = Y+30. [T@2]
-:~ contaVer(Y,T,1), T>=3, not addB(X1,Y),occupato(X,Y,1), not occupato(X1,Y,1),not occupato(X1,Y,0), X1 = X+30. [T@2]
-:~ contaOb(X,Y,T,1), T>=3, not addB(X1,Y1), occupato(X,Y,1), not occupato(X1,Y1,1),not occupato(X1,Y1,0),X1 = X+30, Y1 = Y+30. [T@2]
-:~ contaObSix(X,Y,T,1), T>=3, not addB(X1,Y1), occupato(X,Y,1), not occupato(X1,Y1,1),not occupato(X1,Y1,0),X1 = X+30, Y1 = Y-30. [T@2]
+:~ contaOriz(X,T,1), T>0, not addB(X,Y1),occupato(X,Y,1), not occupato(X,Y1,1),not occupato(X,Y1,0), Y1 = Y+30. [T@3]
+:~ contaVer(Y,T,1), T>0, not addB(X1,Y),occupato(X,Y,1), not occupato(X1,Y,1),not occupato(X1,Y,0), X1 = X+30. [T@3]
+:~ contaOb(X,Y,T,1), T>0, not addB(X1,Y1), occupato(X,Y,1), not occupato(X1,Y1,1),not occupato(X1,Y1,0),X1 = X+30, Y1 = Y+30. [T@3]
+:~ contaObSix(X,Y,T,1), T>0, not addB(X1,Y1), occupato(X,Y,1), not occupato(X1,Y1,1),not occupato(X1,Y1,0),X1 = X+30, Y1 = Y-30. [T@3]
 
 %secondo blocco: col il primo blocco si cerca di inserire pedine nella parte INFERIORE/SINISTRA del blocco del PC
-:~ contaOriz(X,T,1), T>=3, not addB(X,Y1),occupato(X,Y,1), not occupato(X,Y1,1),not occupato(X,Y1,0), Y1 = Y-30. [T@2]
-:~ contaVer(Y,T,1), T>=3, not addB(X1,Y),occupato(X,Y,1), not occupato(X1,Y,1),not occupato(X1,Y,0), X1 = X-30. [T@2]
-:~ contaOb(X,Y,T,1), T>=3, not addB(X1,Y1), occupato(X,Y,1), not occupato(X1,Y1,1),not occupato(X1,Y1,0),X1 = X-30, Y1 = Y-30. [T@2]
-:~ contaObSix(X,Y,T,1), T>=3, not addB(X1,Y1), occupato(X,Y,1), not occupato(X1,Y1,1),not occupato(X1,Y1,0),X1 = X-(T*30), Y1 = (T*30)+Y. [T@2] 
+:~ contaOriz(X,T,1), T>0, not addB(X,Y1),occupato(X,Y,1), not occupato(X,Y1,1),not occupato(X,Y1,0), Y1 = Y-30. [T@3]
+:~ contaVer(Y,T,1), T>0, not addB(X1,Y),occupato(X,Y,1), not occupato(X1,Y,1),not occupato(X1,Y,0), X1 = X-30. [T@3]
+:~ contaOb(X,Y,T,1), T>0, not addB(X1,Y1), occupato(X,Y,1), not occupato(X1,Y1,1),not occupato(X1,Y1,0),X1 = X+(T*30), Y1 = (T*30)+Y. [T@3]
+:~ contaObSix(X,Y,T,1), T>0, not addB(X1,Y1), occupato(X,Y,1), not occupato(X1,Y1,1),not occupato(X1,Y1,0),X1 = X-(T*30), Y1 = (T*30)+Y. [T@3] 
 
 
 %condizioni di vincita:
@@ -77,3 +77,4 @@ win(C) :- contaOriz(X,5,C).
 win(C) :- contaVer(Y,5,C).
 win(C) :- contaOb(X,Y,5,C).
 win(C) :- contaObSix(X,Y,5,C).
+
