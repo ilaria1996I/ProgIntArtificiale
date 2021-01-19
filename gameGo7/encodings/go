@@ -28,42 +28,50 @@ addB(X,Y)|noAddB(X,Y) :- valore(X), valore(Y).
 %deve nascere esattamente un addB 
 :- #count{X,Y : addB(X,Y)}!=1.
 
-contaTuttiOccupatiAvversario(T) :-#count{X,Y: occupato(X,Y,1)} = T. 
-:- contaTuttiOccupatiAvversario(0),addB(X,Y), X<90.
-:- contaTuttiOccupatiAvversario(0),addB(X,Y), Y<90.
-:- contaTuttiOccupatiAvversario(0),addB(X,Y), X>330.
-:- contaTuttiOccupatiAvversario(0),addB(X,Y), Y>330.
+%contaTuttiOccupatiDelPc(T) :-#count{X,Y: occupato(X,Y,1)} = T. 
+:- contaTuttiOccupatiDelPc(0),addB(X,Y), X<90.
+:- contaTuttiOccupatiDelPc(0),addB(X,Y), Y<90.
+:- contaTuttiOccupatiDelPc(0),addB(X,Y), X>330.
+:- contaTuttiOccupatiDelPc(0),addB(X,Y), Y>330.
 
 
-viciniOriz(X,Y,C):- occupato(X,Y,C), occupato(X1,Y,C), X=X1+30.
-viciniVert(X,Y,C):- occupato(X,Y,C), occupato(X,Y1,C), Y=Y1+30.
-viciniDiagDx(X,Y,C):- occupato(X,Y,C), occupato(X1,Y1,C), X=X1+30,Y=Y1+30.
-viciniDiagSx(X,Y,C):- occupato(X,Y,C), occupato(X1,Y1,C), X=X1+30,Y=Y1-30.
+viciniOrizzontalmente(X,Y,C,T):- occupato(X,Y,C), occupato(X1,Y,C), X1=X+30, T=2.
+viciniOrizzontalmente(X,Y,C,TI):- viciniOrizzontalmente(X,Y,C,T), occupato(X1,Y,C),X1=X+(T*30), TI = T+1.
 
+viciniVerticalmente(X,Y,C,T):- occupato(X,Y,C), occupato(X,Y1,C), Y1=Y+30, T=2.
+viciniVerticalmente(X,Y,C,TI):- viciniVerticalmente(X,Y,C,T), occupato(X,Y1,C),Y1=Y+(T*30), TI = T+1.
 
-contViciniOriz(X,T,C):- occupato(X,Y,C),#count{X2 : viciniOriz(X2,Y,C), X2= X+30} = S1, #count{X2 : viciniOriz(X2,Y,C), X2= X+60} = S2, #count{X2 : viciniOriz(X2,Y,C), X2= X+90} = S3,#count{X2 : viciniOriz(X2,Y,C), X2= X+120} = S4,S>0, S=S1+S2+S3+S4, T = S+1.
-contaViciniVer(Y,T,C):- occupato(X,Y,C), #count{Y2 : viciniVert(X,Y2,C), Y2= Y+30} = S1,#count{Y2 : viciniVert(X,Y2,C), Y2= Y+60} = S2,#count{Y2 : viciniVert(X,Y2,C), Y2= Y+90} = S3,#count{Y2 : viciniVert(X,Y2,C), Y2= Y+120} = S4, S = S1+S2+S3+S4, S>1, T = S+1.
-contaViciniDiagDx(X,Y,T,C):- occupato(X,Y,C), #count{X2,Y2 : viciniDiagDx(X2,Y2,C), X2= X+30,Y2= Y+30} = S1,#count{X2,Y2 : viciniDiagDx(X2,Y2,C), X2= X+60,Y2= Y+60} = S2,#count{X2,Y2 : viciniDiagDx(X2,Y2,C), X2= X+90,Y2= Y+90} = S3,#count{X2,Y2 : viciniDiagDx(X2,Y2,C), X2= X+120,Y2= Y+120} = S4,  S = S1+S2+S3+S4, S>1, T = S+1.
-contaViciniDiagSx(X,Y,T,C):- occupato(X,Y,C), #count{X2,Y2 : viciniDiagSx(X2,Y2,C), X2= X-30,Y2= Y+30} = S1,#count{X2,Y2 : viciniDiagSx(X2,Y2,C), X2= X-60,Y2= Y+60} = S2,#count{X2,Y2 : viciniDiagSx(X2,Y2,C), X2= X-90,Y2= Y+90} = S3,#count{X2,Y2 : viciniDiagSx(X2,Y2,C), X2= X-120,Y2= Y+120} = S4,  S = S1+S2+S3+S4, S>1, T = S+1.
+viciniObSx(X,Y,C,T):- occupato(X,Y,C), occupato(X1,Y1,C), X1=X+30,Y1=Y-30, T=2.
+viciniObSx(X,Y,C,TI):- viciniObSx(X,Y,C,T), occupato(X1,Y1,C),X1=X+(T*30), Y1=Y-(T*30), TI = T+1.
 
+viciniObDx(X,Y,C,T):- occupato(X,Y,C), occupato(X1,Y1,C), X1=X+30,Y1=Y+30, T=2.
+viciniObDx(X,Y,C,TI):- viciniObDx(X,Y,C,T), occupato(X1,Y1,C),X1=X+(T*30), Y1=Y+(T*30), TI = T+1.
 
-%Blocco di codice Per Difesa (per evitare che l'avversario vince)
-%primo blocco: col il primo blocco si cerca di bloccare lavversario mettendo delle pedine nella parte SUPERIORE/DESTRA del suo blocco
-:~ contaViciniVer(X,T,0), T>=3, not addB(X,Y1),occupato(X,Y,0), not occupato(X,Y1,0),not occupato(X,Y1,1), Y1 = Y+30. [T@3]
-:~ contViciniOriz(Y,T,0), T>=3, not addB(X1,Y),occupato(X,Y,0), not occupato(X1,Y,0),not occupato(X1,Y,1), X1 = X+30. [T@3]
-:~ contaViciniDiagDx(X,Y,T,0), T>=3, not addB(X1,Y1), occupato(X,Y,0), not occupato(X1,Y1,0),not occupato(X1,Y1,1),X1 = X-30, Y1 = Y-30. [T@3]
-:~ contaViciniDiagSx(X,Y,T,0), T>=3, not addB(X1,Y1), occupato(X,Y,0), not occupato(X1,Y1,0),not occupato(X1,Y1,1),X1 = X+30, Y1 = Y-30. [T@3]
+%DIFESA -- SUPERIORE - Destra
+:~ viciniOrizzontalmente(X,Y,C,T), not occupato(X1,Y,0),not occupato(X1,Y,1), noAddB(X1,Y), X1=X-30. [T@3]
+:~ viciniVerticalmente(X,Y,C,T), not occupato(X,Y1,0),not occupato(X,Y1,1), noAddB(X,Y1), Y1=Y-30. [T@3]
+:~ viciniObDx(X,Y,C,T), not occupato(X1,Y1,0),not occupato(X1,Y1,1), noAddB(X1,Y1), X1=X-30, Y1=Y-30. [T@3]
+:~ viciniObSx(X,Y,C,T), not occupato(X1,Y1,0),not occupato(X1,Y1,1), noAddB(X1,Y1), X1=X-30, Y1=Y+30. [T@3]
 
-%secondo blocco: col il primo blocco si cerca di bloccare lavversario mettendo delle pedine nella parte INFERIORE/SINISTRA del suo blocco
-:~ contaViciniVer(X,T,0), T>=3, not addB(X,Y1),occupato(X,Y,0), not occupato(X,Y1,0),not occupato(X,Y1,1), Y1 = Y-30. [T@3]
-:~ contViciniOriz(Y,T,0), T>=3, not addB(X1,Y),occupato(X,Y,0), not occupato(X1,Y,0),not occupato(X1,Y,1), X1 = X-30. [T@3]
-:~ contaViciniDiagDx(X,Y,T,0), T>=3, not addB(X1,Y1), occupato(X,Y,0), not occupato(X1,Y1,0),not occupato(X1,Y1,1),X1 = X+(T*30), Y1 = (T*30)+Y. [T@3]
-:~ contaViciniDiagSx(X,Y,T,0), T>=3, not addB(X1,Y1), occupato(X,Y,0), not occupato(X1,Y1,0),not occupato(X1,Y1,1),X1 = X-(T*30), Y1 = (T*30)+Y. [T@3] 
-
+%DIFESA -- INFERIORMENTE - Sinistra
+:~ viciniOrizzontalmente(X,Y,C,T), not occupato(X1,Y,0),not occupato(X1,Y,1), noAddB(X1,Y), X1=X+(T*30). [T@3]
+:~ viciniVerticalmente(X,Y,C,T), not occupato(X,Y1,0),not occupato(X,Y1,1), noAddB(X,Y1), Y1=Y+(T*30). [T@3]
+:~ viciniObDx(X,Y,C,T), not occupato(X1,Y1,0),not occupato(X1,Y1,1), noAddB(X1,Y1), X1=X+(T*30), Y1=Y+(T*30). [T@3]
+:~ viciniObSx(X,Y,C,T), not occupato(X1,Y1,0),not occupato(X1,Y1,1), noAddB(X1,Y1), X1=X+(T*30), Y1=Y-(T*30). [T@3]
 
 %condizioni di vincita:
-win(C) :- contViciniOriz(X,5,C).
-win(C) :- contaViciniVer(Y,5,C).
-win(C) :- contaViciniDiagDx(X,Y,5,C).
-win(C) :- contaViciniDiagSx(X,Y,5,C).
+win(C) :- viciniOrizzontalmente(X,5,C).
+win(C) :- viciniVerticalmente(Y,5,C).
+win(C) :- viciniObDx(X,Y,5,C).
+win(C) :- viciniObSx(X,Y,5,C).
+
+
+
+
+
+
+
+
+
+
 
