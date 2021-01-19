@@ -74,9 +74,6 @@ viciniObDx(X,Y,C,TI):- viciniObDx(X,Y,C,T), occupato(X1,Y1,C),X1=X+(T*30), Y1=Y+
 :~ viciniObSx(X,Y,1,T), not occupato(X1,Y1,1),not occupato(X1,Y1,0), noAddB(X1,Y1), X1=X+(T*30), Y1=Y-(T*30). [T@3]
 
 
-%:~ addB(X,Y),not occupato(X1,Y,1),X1=X+30, not occupato(X,Y2,1), Y2=Y+30,not occupato(X3,Y3,1), X3=X+30,Y3=Y+30,not occupato(X4,Y4,1),X4=X+30,Y4=Y-30. [1@1]
-%:~ addB(X,Y),not occupato(X1,Y,0),X1=X+30, not occupato(X,Y2,0), Y2=Y+30,not occupato(X3,Y3,0), X3=X+30,Y3=Y+30,not occupato(X4,Y4,0), X4=X+30,Y4=Y-30. [1@2]
-
 %condizioni di vincita:
 win(C) :- viciniOrizzontalmente(X,Y,C,5).
 win(C) :- viciniVerticalmente(X,Y,C,5).
