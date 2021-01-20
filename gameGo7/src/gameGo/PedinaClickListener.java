@@ -21,7 +21,7 @@ public class PedinaClickListener extends MouseAdapter {
 	private LeggiFile leggi = new LeggiFile();
 	private scriviFile scrivi = new scriviFile();
 	private static String encodingResource="encodings/go";
-	public Handler handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6"));
+	public Handler handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6 --printlatestmodel"));
 	
 
 	

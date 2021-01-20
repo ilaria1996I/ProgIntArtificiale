@@ -77,7 +77,7 @@ public class PedinaPanel extends JPanel {
 	
 	void generaFattiPc(){
 	//In questo metodo si generano i fatti del PC
-	Handler handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6"));
+	Handler handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6 --printlatestmodel"));
 	InputProgram facts= new ASPInputProgram();
 		
 	for(int i=0; i<=540; i=i+30) {
@@ -131,7 +131,7 @@ public class PedinaPanel extends JPanel {
 
 	int vincitore(){ 
 		//In questo metodo si generano i fatti del PC
-		Handler handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6"));
+		Handler handler = new DesktopHandler(new DLVDesktopService("./lib/dlv2-windows-64_6 --printlatestmodel"));
 		InputProgram facts= new ASPInputProgram();
 			
 		for(int i=0; i<=540; i=i+30) {
@@ -164,17 +164,17 @@ public class PedinaPanel extends JPanel {
 			try {
 				for(Object obj:a.getAtoms()){
 					if(obj instanceof Win)  {
-						Win cell = (Win) obj;
+						Win win = (Win) obj;
 						
 						//commenta se non vuoi la la scritta Vittoria/Perso
-						if(cell.getC() == 0) {
+						if(win.getC() == 0) {
 						risultato = new BackgroundImageJFrame (vittoria);
-						gameGo.InterfP.windows.setVisible(false);
+						//gameGo.InterfP.windows.setVisible(false);
 						return 0;
 						}
 						else {
 						risultato = new BackgroundImageJFrame (sconfitta);
-						gameGo.InterfP.windows.setVisible(false);
+						//gameGo.InterfP.windows.setVisible(false);
 						return 1;
 						}
 						//
