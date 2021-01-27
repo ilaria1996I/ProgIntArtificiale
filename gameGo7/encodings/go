@@ -28,6 +28,7 @@ addB(X,Y)|noAddB(X,Y) :- valore(X), valore(Y).
 %deve nascere esattamente un addB 
 :- #count{X,Y : addB(X,Y)}!=1.
 
+%si occupa di inserire la prima posizione NON nei bordi
 contaTuttiOccupatiDelPc(T) :-#count{X,Y: occupato(X,Y,1)} = T. 
 :- contaTuttiOccupatiDelPc(0),addB(X,Y), X<90.
 :- contaTuttiOccupatiDelPc(0),addB(X,Y), Y<90.
@@ -59,6 +60,9 @@ viciniObDx(X,Y,C,TI):- viciniObDx(X,Y,C,T), occupato(X1,Y1,C),X1=X+(T*30), Y1=Y+
 :~ viciniObDx(X,Y,1,T), not occupato(X1,Y1,1),not occupato(X1,Y1,0), noAddB(X1,Y1), X1=X+(T*30), Y1=Y+(T*30). [T@3]
 :~ viciniObSx(X,Y,1,T), not occupato(X1,Y1,1),not occupato(X1,Y1,0), noAddB(X1,Y1), X1=X+(T*30), Y1=Y-(T*30). [T@3]
 
+%Attacco -- si attivano quando se ci sono vicini bianchi (1)
+:~ noAddB(X,Y), occupato(X,Y1,1), occupato(X,Y2,1), not occupato(X,Y,0), Y1 = Y-30, Y2 = Y+30. [1@2]
+:~ noAddB(X,Y), occupato(X1,Y,1), occupato(X2,Y,1), not occupato(X,Y,0), X1 = X-30, X2 = X+30. [1@2]
 
 %si attivano quando non ci sono vicini
 :~ occupato(X,Y,1), not occupato(X,Y1,1), not occupato(X,Y1,0), noAddB(X,Y1), Y1 = Y+30.[3@1]
@@ -87,7 +91,8 @@ viciniObDx(X,Y,C,TI):- viciniObDx(X,Y,C,T), occupato(X1,Y1,C),X1=X+(T*30), Y1=Y+
 :~ viciniObDx(X,Y,0,T), not occupato(X1,Y1,0),not occupato(X1,Y1,1), noAddB(X1,Y1), X1=X+(T*30), Y1=Y+(T*30). [T@3]
 :~ viciniObSx(X,Y,0,T), not occupato(X1,Y1,0),not occupato(X1,Y1,1), noAddB(X1,Y1), X1=X+(T*30), Y1=Y-(T*30). [T@3]
 
-%nel caso in cui sopra la posizione X ce una pedina avversaria e sotto la pedina X ce una pedina avversaria mettere una pedina bianca nella posizione X
+%nel caso in cui sopra la posizione X ce una pedina avversaria e sotto la pedina X ce una pedina avversaria mettere una pedina bianca 
+%nella posizione X
 	%orizzontale
 :~ noAddB(X,Y), not occupato(X,Y,0), not occupato(X,Y,1), occupato(X1,Y,0), occupato(X2,Y,0), X1 = X-30, X2 = X+30. [1@1]
 	%verticale
@@ -104,7 +109,7 @@ win(C) :- viciniObDx(X,Y,C,5).
 win(C) :- viciniObSx(X,Y,C,5).
 
 
-
+%quando capisce che non ce un possibile avanzamento ne in verticale ne in orizz. ne ObDx e ne ObSx non mette la pedina nella posizione (X,Y)
 possibiliAvanzamentiOriz(X,Y,1,T):- addB(X,Y), occupato(X1,Y,1), T = 2, X1 = X+30.
 possibiliAvanzamentiVert(X,Y,1,T):- addB(X,Y), occupato(X,Y1,1), T = 2, Y1 = Y+30.
 possibiliAvanzamentiOriz(X,Y,1,T):- addB(X,Y), not occupato(X1,Y,0), T = 1, X1 = X+30.
@@ -123,11 +128,3 @@ possibiliAvanzamentiObSx(X,Y,C,T):- occupato(X,Y,C), occupato(X1,Y1,1), T = 1, X
 possibiliAvanzamentiObDx(X,Y,C,T1):- possibiliAvanzamentiObDx(X,Y,C,T), not occupato(X1,Y1,0), X1=X+(T*30), Y1=Y+(T*30),T1=T+1, T<5.
 possibiliAvanzamentiObSx(X,Y,C,T1):- possibiliAvanzamentiObSx(X,Y,C,T), not occupato(X1,Y1,0), X1=X+(T*30), Y1=Y-(T*30),T1=T+1, T<5.
 :~ addB(X,Y), not possibiliAvanzamentiObDx(X,Y,1,5), not possibiliAvanzamentiObSx(X,Y,1,5), not possibiliAvanzamentiOriz(X,Y,1,5), not possibiliAvanzamentiVert(X,Y,1,5). [3@3]
-
-
-
-
-
-
-
-

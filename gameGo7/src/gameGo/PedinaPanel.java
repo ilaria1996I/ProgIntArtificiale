@@ -55,25 +55,7 @@ public class PedinaPanel extends JPanel {
 		}
 		return true;
 	}
-	
-//	void generaIFatti(int x, int y) {
-//	//In questo metodo si generano i fatti del giocatore reale
-//	InputProgram facts= new ASPInputProgram();
-//		for(int i=0; i<=540; i=i+30) {
-//			for(int j=0; j<=540; j = j+30) {
-//				int c = leggi.coloreAppartenenza(i,j);
-//				if(c==0) {
-//					try {
-//						facts.addObjectInput(new Occupato(i,j,c));
-//					} 
-//					catch (Exception e) {
-//						e.printStackTrace();
-//						}
-//					}
-//				}
-//			}
-//		vincitore();
-//	} //fine metodo generaIFatti
+
 	
 	void generaFattiPc(){
 	//In questo metodo si generano i fatti del PC
@@ -165,7 +147,7 @@ public class PedinaPanel extends JPanel {
 				for(Object obj:a.getAtoms()){
 					if(obj instanceof Win)  {
 						Win win = (Win) obj;
-						
+						//System.out.println("Vincitore: + " + win.getC());
 						//commenta se non vuoi la la scritta Vittoria/Perso
 						if(win.getC() == 0) {
 						risultato = new BackgroundImageJFrame (vittoria);
