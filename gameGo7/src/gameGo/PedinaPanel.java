@@ -68,7 +68,7 @@ public class PedinaPanel extends JPanel {
 				if(c!=2) {
 					try {
 						facts.addObjectInput(new Occupato(i,j,c));
-						System.out.println("occupato(" + i+ "," + j+ ","  + c+").");
+						//System.out.println("occupato(" + i+ "," + j+ ","  + c+").");
 					} 
 					catch (Exception e) {
 						e.printStackTrace();
@@ -151,12 +151,12 @@ public class PedinaPanel extends JPanel {
 						//commenta se non vuoi la la scritta Vittoria/Perso
 						if(win.getC() == 0) {
 						risultato = new BackgroundImageJFrame (vittoria);
-						//gameGo.InterfP.windows.setVisible(false);
+						gameGo.InterfP.windows.setVisible(false);
 						return 0;
 						}
 						else {
 						risultato = new BackgroundImageJFrame (sconfitta);
-						//gameGo.InterfP.windows.setVisible(false);
+						gameGo.InterfP.windows.setVisible(false);
 						return 1;
 						}
 						//
